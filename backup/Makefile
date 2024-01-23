@@ -13,7 +13,7 @@ lo=yuan.o
 zj=zj
 
 yc=yuan.cpp lexer_main.cpp
-yh=lexer.h token.h
+yh=lexer.h
 #yrc=
 #yo=
 
@@ -22,7 +22,6 @@ ljh=Headers
 #ljr=Resources
 #ljo=Others
 
-SRCS:=$(yc)
 GPATH=$(ljc):$(ljr)
 VPATH=$(ljo)
 vpath %.cpp $(ljc)
@@ -32,23 +31,22 @@ vpath %.h $(ljh)
 #vpath %.res $(ljr)
 $(jg):c=$(link)
 $(mb):c=$(link)
-# $(lo):c=
-# $(zj).i:c=-I$(ljh) 
-%.i:c=-I$(ljh) 
+$(lo):c=
+$(zj).i:c=-I$(ljh) 
 
 all:$(jg)
 	$(del)
 
-$(jg):$(SRCS:.cpp=.o)
+$(jg):$(lo)
 	$(gcc) $a
 
-%.o:%.s
+$(lo):$(zj).s
 	$(gcc) -c $a
 
-%.s:%.i
+$(zj).s:$(zj).i
 	$(gcc) -S $a
 
-%.i:%.cpp $(yh)
+$(zj).i:$(yc) $(yh)
 	$(gcc) -E $b
 
 $(cs):$(mb)
@@ -59,11 +57,10 @@ $(cs):$(mb)
 $(mb):$(lo)
 	$(gcc) $a
 
-.SUFFIXES:
 .PHONY:all
 
 define del
-rm -f *.i
-rm -f *.s
+rm *.i
+rm *.s
 ./$< $(test-command)
 endef
