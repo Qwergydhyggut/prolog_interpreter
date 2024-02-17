@@ -9,6 +9,7 @@ namespace lexer_mod
     class lexer_node
     {
       lexer_node *next_node[100];
+      int count;
       int terminal;
       token_class::token *token;
 

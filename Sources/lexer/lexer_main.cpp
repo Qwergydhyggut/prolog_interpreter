@@ -32,6 +32,7 @@ lexer_read::lexer_node::lexer_node()
  // std::for_each(this->next_node, this->next_node+100, [](auto &node){std::cout<<node<<std::endl;});
   for_each(this->next_node, this->next_node+100, [](auto &node){node=0;});
   this->terminal=0;
+  this->count=0;
   // std::for_each(this->next_node, this->next_node+100, [](auto &node){std::cout<<node<<std::endl;});
   // printf("ttt%d\n",this->next_node[2]);
   
@@ -60,6 +61,7 @@ token_class::token *lexer_read::operator()(char c)
 lexer_read::lexer_node *lexer_read::lexer_node::add_node(char c)
 {
   this->next_node[c]=new lexer_read::lexer_node;
+  this->count++;
 
   return this->next_node[c];
   
