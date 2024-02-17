@@ -13,7 +13,7 @@ lo=yuan.o
 zj=zj
 
 yc=yuan.cpp lexer_main.cpp
-yh=lexer.h token.h
+yh=lexer.h token.h debug.h
 #yrc=
 #yo=
 

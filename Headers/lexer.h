@@ -1,5 +1,6 @@
 //void test();
 #include "token.h"
+#include <string>
 
 
 namespace lexer_mod
@@ -8,20 +9,22 @@ namespace lexer_mod
   {
     class lexer_node
     {
-      lexer_node *next_node[100];
+      lexer_node *next_node[256];
+      lexer_node *prev_node;
       int count;
       int terminal;
-      token_class::token *token;
+      token_class::token token;
+      std::string str;
 
     public:
-      lexer_node();
+      lexer_node(lexer_node *ptr);
       ~lexer_node();
       lexer_node *add_node(char c);
-      token_class::token *set_node();
+      token_class::token set_node();
       lexer_node *get_next_node(char c);
       void set_terminal();
       int get_terminal();
-      token_class::token *get_token();
+      token_class::token get_token();
 
       
     };
@@ -29,12 +32,13 @@ namespace lexer_mod
   public:
     lexer_read();
     ~lexer_read();
-    token_class::token *operator()(char c);
+    token_class::token operator()(char c);
 
   private:
     lexer_node *first_node;
     lexer_node *this_node;
     lexer_node *last_node;
+    token_class::token null_token;
 
 
   };

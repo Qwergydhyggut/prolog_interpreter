@@ -10,8 +10,8 @@ int main(int arg,char **args)
   char teststr[]={"lllll  lllllll aaa aaa lllll aaa"};
   // printf("%ld\n",(long int)test('a'));
   // printf("%ld\n",(long int)test('a'));
-  for (int i=0; teststr[i]-'\0'; printf("%ld  ",(long int)test(teststr[i++])));
-  printf("%ld\n",(long int)test(' '));
+  for (int i=0; teststr[i]-'\0'; std::cout<<test(teststr[i++]).str<<'\t');
+  //printf("%ld\n",(long int)test(' '));
   //  test();
   
   
