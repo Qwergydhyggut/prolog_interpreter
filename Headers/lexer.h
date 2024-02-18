@@ -20,9 +20,9 @@ namespace lexer_mod
       lexer_node(lexer_node *ptr);
       ~lexer_node();
       lexer_node *add_node(char c);
-      token_class::token set_node();
+      token_class::token set_node(int ter);
       lexer_node *get_next_node(char c);
-      void set_terminal();
+      void set_terminal(int ter);
       int get_terminal();
       token_class::token get_token();
 
@@ -39,6 +39,7 @@ namespace lexer_mod
     lexer_node *this_node;
     lexer_node *last_node;
     token_class::token null_token;
+    int ter_save;
 
 
   };

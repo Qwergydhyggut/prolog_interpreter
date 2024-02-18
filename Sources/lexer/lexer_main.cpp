@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <exception>
 #include <iostream>
+#include <memory>
 #include <ostream>
 #include <type_traits>
 
@@ -15,6 +16,7 @@ lexer_read::lexer_read()
 {
   printf("lll%s\n",__FILE__);
   this->last_node=this->this_node=this->first_node=new lexer_read::lexer_node(0);
+  this->ter_save=0;
 
   
 }
@@ -52,7 +54,11 @@ lexer_read::lexer_node::~lexer_node()
 
 token_class::token lexer_read::operator()(char c)
 {
-  if(!(c-' ')) return !(this->this_node-this->first_node)||this->this_node-this->first_node&&this->this_node->get_terminal()?(this->this_node=this->first_node,this->last_node->get_token()):(this->this_node=this->first_node,this->last_node->set_node());
+  // if(!(c-' ')) return !(this->this_node-this->first_node)||this->this_node-this->first_node&&this->this_node->get_terminal()?(this->this_node=this->first_node,this->last_node->get_token()):(this->this_node=this->first_node,this->last_node->set_node(++this->ter_save));
+  if(!(c-' '))
+    if(!(this->this_node-this->first_node)) return this->null_token;
+    else if(this->this_node->get_terminal()) return this->this_node=this->first_node,this->last_node->get_token();
+    else return this->this_node=this->first_node,this->last_node->set_node(++this->ter_save);
 
   // debug;
     
@@ -60,7 +66,8 @@ token_class::token lexer_read::operator()(char c)
 
   // debug;
 
-  return (this->this_node->get_terminal()?this->this_node->get_token():null_token);
+  // return (this->this_node->get_terminal()?this->this_node->get_token():null_token);
+  return null_token;
   
   
 }
@@ -97,7 +104,7 @@ lexer_read::lexer_node *lexer_read::lexer_node::add_node(char c)
 }
 
 static int mdzztest;
-token_class::token lexer_read::lexer_node::set_node(){this->set_terminal()/*,this->token=(token_class::token*)++mdzztest*/;return this->token;}
+token_class::token lexer_read::lexer_node::set_node(int ter){this->set_terminal(ter)/*,this->token=(token_class::token*)++mdzztest*/;return this->token;}
 
 lexer_read::lexer_node *lexer_read::lexer_node::get_next_node(char c)
 {
@@ -109,13 +116,14 @@ lexer_read::lexer_node *lexer_read::lexer_node::get_next_node(char c)
   
 }
 
-void lexer_read::lexer_node::set_terminal()
+void lexer_read::lexer_node::set_terminal(int ter)
 {
-  this->terminal=1;
+  this->terminal=ter;
   //this->token=0;
   // debug;
   // cout<<this->str;
   // debug;
+  this->token.token_exp=ter;
   this->token.str=this->str;
 
   

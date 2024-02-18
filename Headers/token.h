@@ -6,7 +6,7 @@ namespace token_class
   class token
   {
   public:
-    int i=0;
+    int token_exp=0;
     std::string str="mdzz";
     
     
