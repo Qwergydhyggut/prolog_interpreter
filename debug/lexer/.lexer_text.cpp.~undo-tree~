@@ -1,0 +1,12 @@
+(undo-tree-save-format-version . 1)
+"bfbeef528f760a69950c49b2844e08d7de0d0fab"
+[nil nil nil nil (26067 8150 803576 223000) 0 nil]
+([nil nil ((nil rear-nonsticky nil 1 . 2) (#("
+" 0 1 (fontified nil)) . -279) (1 . 280) (t 26067 8052 873535 438000)) nil (26067 8150 803575 150000) 0 nil])
+([nil nil ((nil rear-nonsticky nil 1 . 2) (#("
+" 0 1 (c-is-sws t c-in-sws t fontified nil)) . -84) (1 . 85)) nil (26067 8150 803574 262000) 0 nil])
+([nil nil ((#("
+" 0 1 (fontified t rear-nonsticky t)) . 1)) nil (26067 8150 803572 861000) 0 nil])
+([nil nil ((83 . 84) 83) nil (26067 8150 803571 786000) 0 nil])
+([nil current ((362 . 363) 84) nil (26067 8150 803567 996000) 0 nil])
+nil

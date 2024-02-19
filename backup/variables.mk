@@ -24,6 +24,7 @@ ljh=Headers
 #ljr=Resources
 #ljo=Others
 
+#include debug/Makefile #$(.VARIABLES)
 SRCS:=$(yc)
 GPATH=$(ljc):$(ljr)
 VPATH=$(ljo)
@@ -38,6 +39,30 @@ $(mb):c=$(link)
 # $(zj).i:c=-I$(ljh) 
 %.i:c=-I$(ljh) 
 
+#include debug/Makefile
+#all:$(jg)
+#	include debug/Makefile
+#	$(del)
+
+#$(jg):$(SRCS:.cpp=.o)
+#	$(gcc) $a
+
+#%.o:%.s
+#	$(gcc) -c $a
+
+#%.s:%.i
+#	$(gcc) -S $a
+
+#%.i:%.cpp $(yh)
+#	$(gcc) -E $b
+
+#$(cs):$(mb)
+#	del $(jg)
+#	$(del)
+
+
+#$(mb):$(lo)
+#	$(gcc) $a
 
 .SUFFIXES:
 .PHONY:all $(test) test_all

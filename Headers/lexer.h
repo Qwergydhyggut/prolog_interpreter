@@ -1,4 +1,6 @@
-//void test();
+// void test();
+#ifndef __LEXER_INCLUDE__
+#define __LEXER_INCLUDE__
 #include "token.h"
 #include <string>
 
@@ -45,3 +47,5 @@ namespace lexer_mod
   };
   
 };
+
+#endif
