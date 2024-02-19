@@ -6,7 +6,9 @@
 #include <iostream>
 #include <memory>
 #include <ostream>
-#include <type_traits>
+//#include <type_traits>
+#include <ratio>
+#include <vector>
 
 using namespace lexer_mod;
 using namespace std;
@@ -16,7 +18,8 @@ lexer_read::lexer_read()
 {
   printf("lll%s\n",__FILE__);
   this->last_node=this->this_node=this->first_node=new lexer_read::lexer_node(0);
-  this->ter_save=0;
+  this->lexer_list.push_back(this->first_node);
+  //this->ter_save=0;
 
   
 }
@@ -37,6 +40,9 @@ lexer_read::lexer_node::lexer_node(lexer_node *ptr)
   this->terminal=0;
   this->count=0;
   this->prev_node=ptr;
+  this->token=null_token;
+  //std::cout<<null_token.str<<std::endl;
+  //printf("qqqqqqqqqqqqqqqqqqqqqqqqqqqq\n");
   //this->str=new string();
   // std::for_each(this->next_node, this->next_node+100, [](auto &node){std::cout<<node<<std::endl;});
   // printf("ttt%d\n",this->next_node[2]);
@@ -56,9 +62,16 @@ token_class::token lexer_read::operator()(char c)
 {
   // if(!(c-' ')) return !(this->this_node-this->first_node)||this->this_node-this->first_node&&this->this_node->get_terminal()?(this->this_node=this->first_node,this->last_node->get_token()):(this->this_node=this->first_node,this->last_node->set_node(++this->ter_save));
   if(!(c-' '))
-    if(!(this->this_node-this->first_node)) return this->null_token;
-    else if(this->this_node->get_terminal()) return this->this_node=this->first_node,this->last_node->get_token();
-    else return this->this_node=this->first_node,this->last_node->set_node(++this->ter_save);
+    if(!(this->this_node-this->first_node)) return null_token;
+    else if(this->this_node->get_terminal()) {debug;return this->this_node=this->first_node,this->last_node->get_token();}
+    else
+    {
+      int ter_save=this->ter_save();
+      if(this->lexer_list.size()>ter_save) this->lexer_list[ter_save]=this_node;
+      else this->lexer_list.push_back(this_node);
+      this->this_node=this->first_node;
+      return this->last_node->set_node(ter_save);
+    }
 
   // debug;
     
@@ -68,9 +81,34 @@ token_class::token lexer_read::operator()(char c)
 
   // return (this->this_node->get_terminal()?this->this_node->get_token():null_token);
   return null_token;
-  
-  
 }
+
+void lexer_read::__debug_ret_lexer()
+{
+  for(int i=0;i<this->lexer_list.size();i++)
+    std::cout<<i<<'\t'<<this->lexer_list[i]->get_token().token_exp<<'\t'<<this->lexer_list[i]->get_token().str<<std::endl;
+  
+  //return this->lexer_list;
+}
+
+void lexer_read::del_token(token_class::token tok)
+{
+  lexer_read::lexer_node *node,*fork_node;
+
+  node=this->lexer_list[tok.token_exp];
+  //for(node=lexer_list[tok.token_exp];!node->count;node=node->prev_node);
+  this->lexer_list[tok.token_exp]=first_node;
+  this->ter_save(tok.token_exp);
+  fork_node=node->get_node_fork();
+  debug;
+  if(!(fork_node-node)) node->set_terminal(0);
+  else fork_node->del_node();
+  debug;
+  this->last_node=this->this_node=this->first_node;
+  
+  
+  
+}  
 
 lexer_read::lexer_node *lexer_read::lexer_node::add_node(char c)
 {
@@ -103,7 +141,50 @@ lexer_read::lexer_node *lexer_read::lexer_node::add_node(char c)
   
 }
 
+void lexer_read::lexer_node::del_node()
+{
+  debug;
+  lexer_read::lexer_node *prev_p;
+  char c;
+  prev_p=this->prev_node;
+  debug;
+  c=this->str[this->str.size()-1];
+  prev_p->count--;
+  std::cout<<prev_p->str<<'\t'<<c<<std::endl;
+  prev_p->next_node[c]=0;
+  debug;
+  delete this;
+  
+  
+}
+
+lexer_read::lexer_node *lexer_read::lexer_node::get_node_fork()
+{
+  debug;
+  lexer_read::lexer_node *ptr1,*ptr;
+  std::cout<<this->str<<'\t'<<this->count<<"kkkkkkkkk"<<std::endl;
+  //ptr=this;
+  if(!(this->count-1)) return this;
+  //printf("%ld\n",(long int)ptr->prev_node);
+  debug;
+  for(ptr=this;ptr->prev_node&&!(ptr->prev_node->count-1);ptr=ptr1)
+  {
+    debug;
+    ptr1=ptr->prev_node;
+    // this->count--;
+    std::cout<<ptr->prev_node->prev_node->count<<std::endl;
+    std::cout<<ptr->str<<'\t'<<ptr->count<<"llll"<<std::endl;
+    // delete ptr;
+  }
+  std::cout<<ptr->str<<std::endl;
+
+  return ptr;
+  
+  
+}  
+
 static int mdzztest;
+token_class::token lexer_read::null_token=token_class::token();
 token_class::token lexer_read::lexer_node::set_node(int ter){this->set_terminal(ter)/*,this->token=(token_class::token*)++mdzztest*/;return this->token;}
 
 lexer_read::lexer_node *lexer_read::lexer_node::get_next_node(char c)

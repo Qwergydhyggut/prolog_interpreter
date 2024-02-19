@@ -13,9 +13,9 @@ test-command=test.pr
 lo=yuan.o
 zj=zj
 
-ycmode_lexer=lexer_main.cpp
+ycmode_lexer=lexer_main.cpp token_num.cpp
 yc=yuan.cpp $(ycmode_lexer)
-yh=lexer.h token.h debug.h
+yh=lexer.h token.h debug.h lexer/token_num.h
 #yrc=
 #yo=
 
