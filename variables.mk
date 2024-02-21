@@ -13,13 +13,13 @@ test-command=test.pr
 lo=yuan.o
 zj=zj
 
-ycmode_lexer=lexer_main.cpp token_num.cpp
+ycmode_lexer=lexer_main.cpp token_num.cpp lexer_select.cpp synatax_main.cpp
 yc=yuan.cpp $(ycmode_lexer)
-yh=lexer.h token.h debug.h lexer/token_num.h
+yh=lexer.h token.h debug.h lexer/token_num.h lexer/lexer_select.h synatax.h
 #yrc=
 #yo=
 
-ljc=Sources Sources/lexer
+ljc=Sources Sources/lexer Sources/synatax
 ljh=Headers
 #ljr=Resources
 #ljo=Others

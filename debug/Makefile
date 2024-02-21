@@ -10,8 +10,8 @@ test_yh=$(yh) lexer
 #yrc=
 #yo=
 
-test_ljc=$(addprefix ../,$(call delfirst,$(ljc))) lexer
-test_ljh=$(addprefix ../,$(ljh)) lexer
+test_ljc=$(addprefix ../,$(call delfirst,$(ljc))) lexer synatax
+test_ljh=$(addprefix ../,$(ljh)) lexer synatax
 #ljr=Resources
 #ljo=Others
 

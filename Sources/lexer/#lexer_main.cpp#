@@ -69,7 +69,7 @@ token_class::token &lexer_read::operator()(char c,char c1)
   // if(!(c-' ')) return !(this->this_node-this->first_node)||this->this_node-this->first_node&&this->this_node->get_terminal()?(this->this_node=this->first_node,this->last_node->get_token()):(this->this_node=this->first_node,this->last_node->set_node(++this->ter_save));
   if(c-' '&&c-'\n') this->last_node=this->this_node=(this->this_node->get_next_node(c)?this->this_node->get_next_node(c):this->this_node->add_node(c));
 
-  if(this->fun_ifter(c,c1))
+  if(this->fun_ifter(c,c1)
     if(!(this->this_node-this->first_node)&&!this->this_node->get_next_node(c)) return null_token;
     else if(this->this_node->get_terminal()) {// debug;
       return this->this_node=this->first_node,this->last_node->get_token();}
