@@ -1,5 +1,5 @@
 gcc=x86_64-pc-linux-gnu-g++
-link=
+link=-std=gnu++20
 
 a=$^ $c-o $@
 b=$< $c-o $@
@@ -15,7 +15,7 @@ zj=zj
 
 ycmode_lexer=lexer_main.cpp token_num.cpp lexer_select.cpp synatax_main.cpp
 yc=yuan.cpp $(ycmode_lexer)
-yh=lexer.h token.h debug.h lexer/token_num.h lexer/lexer_select.h synatax.h
+yh=lexer.h token.h debug.h lexer/token_num.h lexer/lexer_select.h synatax.h synatax_tree.h synatax/meta_map.hpp
 #yrc=
 #yo=
 

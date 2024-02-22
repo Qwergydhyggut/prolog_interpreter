@@ -3,9 +3,18 @@
 #include "debug.h"
 
 
-void test_syna()
-{
-  debug;
+// void test_syna()
+// {
+//   debug;
 
   
-}  
+// }
+using namespace synatax_mod;
+
+
+synatax_read::synatax_read()
+{
+  debug;
+  
+  
+}    

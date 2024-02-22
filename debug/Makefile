@@ -5,8 +5,8 @@ test_link=$(link) -lgtest
 
 test_jg=test_$(jg)
 
-test_yc=$(call delfirst,$(yc)) test_main.cpp
-test_yh=$(yh) lexer
+test_yc=$(call delfirst,$(yc)) test_main.cpp #lexer_test.hpp synatax_test.hpp
+test_yh=$(yh) lexer_test.hpp synatax_test.hpp
 #yrc=
 #yo=
 
