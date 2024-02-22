@@ -26,7 +26,8 @@ TEST(meta, cons)
 {
   // meta_map_mod::cons<token_class::token, token_class::token> test;
   // token_class::token lll;
-  meta_map_mod::cons<token_class::token,token_class::token> test;
+  // meta_map_mod::cons<token_class::token,meta_map_mod::stat_struct<token_class::token::Atom_t>> test;
+  meta_map_mod::meta_map_out test;
   // meta_map_mod::testmdzz<token_class::token>::cons<token_class::token,token_class::token>;
   
   
