@@ -1,8 +1,10 @@
 #ifndef __TOKEN_INCLUDE__
 #define __TOKEN_INCLUDE__
+#include <locale>
 #include <string>
 //#include "lexer.h"
 #define ENABLE_TOKEN_OBJ Atom_t,Inter_t,Var_t,Ter_t,Rkh_t,Lkh_t,OP_t,AND_t,OR_t
+#define ENABLE_BNF_TOKEN S,E,T,Ter
 
 
 namespace token_class
@@ -19,7 +21,16 @@ namespace token_class
     
     
   };
-  
+
+  struct bnf_token
+  {
+    token is_ter;
+    typedef enum {ENABLE_BNF_TOKEN} Stat;
+    Stat stat;
+    bnf_token(Stat rcs);
+    bool operator<(const bnf_token &rkh) const;
+  };
+
   
 }
 

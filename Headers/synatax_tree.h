@@ -1,5 +1,5 @@
 #ifndef __SYNATAX_TREE_INCLUDE__
-#define __SYNATAX_TEEE_INCLUDE__
+#define __SYNATAX_TREE_INCLUDE__
 #include <vector>
 #include "token.h"
 

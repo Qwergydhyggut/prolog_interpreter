@@ -54,3 +54,16 @@ TEST(synatax, test)
   debug;
   
 }
+
+TEST(synatax, vec)
+{
+  std::vector<int> test;
+
+  printf("%ld\n",test.size());
+  test.push_back(1);
+  printf("%ld\n",test.size());
+  test.pop_back();
+  printf("%ld\n",test.size());
+
+  
+}
