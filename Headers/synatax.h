@@ -19,6 +19,7 @@ namespace synatax_mod
     synatax_tree_class::synatax_tree operator()(token_class::token tok);
     
   private:
+    static synatax_tree_class::synatax_tree null_sy_tree;
     std::function<std::vector<token_class::bnf_token>(token_class::bnf_token,token_class::token)> ret_fun;
     std::function<synatax_tree_class::synatax_tree(std::vector<token_class::bnf_token>&,std::vector<token_class::token>&,std::vector<token_class::token>&)> do_stack_fun;
     std::vector<token_class::bnf_token> bnf_stack;
