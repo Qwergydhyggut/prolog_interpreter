@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "token.h"
 #include <map>
+#include <sys/types.h>
 #include <vector>
 #include "synatax_tree.h"
 
@@ -43,6 +44,8 @@ bool token_class::bnf_token::operator<(const token_class::bnf_token &rkh) const
 
 token_class::bnf_token::bnf_token(token_class::bnf_token::Stat rcs)
 {
+  // printf("lll,%d",rcs);
+  // debug;
   this->stat=rcs;
   
   
@@ -50,11 +53,22 @@ token_class::bnf_token::bnf_token(token_class::bnf_token::Stat rcs)
 
 synatax_tree_class::synatax_tree synatax_read::null_sy_tree=synatax_tree_class::synatax_tree();
 
-synatax_read::synatax_read(std::function<std::vector<token_class::bnf_token>(token_class::bnf_token,token_class::token)> ptr, std::function<synatax_tree_class::synatax_tree(std::vector<token_class::bnf_token>&,std::vector<token_class::token>&,std::vector<token_class::token>&)> ptr1)
+synatax_read::synatax_read(RET_FUN_TYPE ptr, DO_STACK_FUN ptr1)
 {
   this->ret_fun=ptr;
   this->do_stack_fun=ptr1;
+  // token_class::bnf_token *mdzz=new token_class::bnf_token(token_class::bnf_token::S);
+  // debug;
+  // mdzz->stat;
+  // debug;
+  // printf("lll,%ld\n",mdzz);
   this->bnf_stack.push_back(token_class::bnf_token(token_class::bnf_token::S));
+  // printf("lll,%ld\n",this->bnf_stack.size());
+  // printf("lll,%ld\n",this->bnf_stack[0].stat);
+  // debug;
+  // // printf("lll,%ld\n",bnf_stack[-1]);
+  // debug;
+  // printf("lll,%d\n",token_class::bnf_token::S);
   // this->null_sy_tree.addr=0;
   
   
@@ -87,13 +101,16 @@ std::vector<token_class::bnf_token> synatax_read::init_ret_fun(token_class::bnf_
      {E,{{token_class::token::Inter_t,{F,E2}},
 	 {token_class::token::Lkh_t,{F,E2}}}},
      {F,{{token_class::token::Inter_t,{ID,E2}},
-	 {token_class::token::Lkh_t,{Lkh,E,Rkh}}}},
-     {E2,{{token_class::token::Ter_t,{Ter}},
-	  {token_class::token::AND_t,{OP,E}}}},
-     {ID,{{token_class::token::Inter_t,{Ter}}}},
-     {Lkh,{{token_class::token::Lkh_t,{Ter}}}},
-     {Rkh,{{token_class::token::Rkh_t,{Ter}}}},
-     {OP,{{token_class::token::AND_t,{Ter}}}}};
+	 {token_class::token::Lkh_t,{Lkh,E,Rkh}}}}, //Ter E2 E2 ID
+     {E2,{{token_class::token::Ter_t,{Ter}},        //Ter E2 E2 Rkh E2 E2 
+	  // {token_class::token::OR_t,{OP,E}},       Ter E2 Rkh E2 E2 
+	  {token_class::token::OP_t,{OP,E}}}},
+     {ID,{{token_class::token::Inter_t,{Ter,ID}}}},
+     {Lkh,{{token_class::token::Lkh_t,{Ter,Lkh}}}},
+     {Rkh,{{token_class::token::Rkh_t,{Ter,Rkh}}}},
+     {OP,{//{token_class::token::AND_t,{Ter,OP}},
+	  {token_class::token::OP_t,{Ter,OP}}}}};
+  debug;
     // {{S,{{token_class::token::Inter_t,{E,Ter}},
     // 	 {token_class::token::Lkh_t,{E,Ter}}}},
     //  {E,{{token_class::token::Inter_t,{F,E1}},
@@ -116,60 +133,93 @@ std::vector<token_class::bnf_token> synatax_read::init_ret_fun(token_class::bnf_
   
 }  
 
-synatax_tree_class::synatax_tree synatax_read::init_do_stack_fun(std::vector<token_class::bnf_token> &bnf_stack,std::vector<token_class::token> &tok_stack,std::vector<token_class::token> &op_stack)
+synatax_tree_class::synatax_tree synatax_read::init_do_stack_fun(std::vector<token_class::bnf_token> &bnf_stack,std::vector<token_class::token*> &tok_stack,std::vector<token_class::token*> &op_stack)
 {
   static int i=1;
   synatax_tree_class::synatax_tree ret_sy;
 
   bnf_stack.pop_back();
-  switch(bnf_stack[-1].stat)
+  ret_sy=null_sy_tree;
+  // switch(bnf_stack[bnf_stack.size()-1].stat)
+  // {
+  // case token_class::bnf_token::ID:
+  //   ret_sy.addr=i;
+  //   ret_sy.car=tok_stack[tok_stack.size()-1];
+  //   tok_stack.pop_back();
+  //   tok_stack.push_back(token_class::token(i++));
+  //   bnf_stack.pop_back();
+  //   break;
+      
+  // }
+  switch(bnf_stack[bnf_stack.size()-1].stat)
   {
-  case token_class::bnf_token::T1:
-  case token_class::bnf_token::E1:  
-    // ret_sy.car=tok_stack[-1];
-    // ret_sy.args={tok_stack[-1],tok_stack[-2]};
-    // ret_sy.addr=i++;
-
-    //bnf_stack.pop_back();
-    // tok_stack.pop_back();
-    op_stack.push_back(tok_stack[-1]);
-    tok_stack.pop_back();
-    ret_sy=null_sy_tree;
-    break;
-
   case token_class::bnf_token::ID:
-    ret_sy.car=tok_stack[-1];
-    ret_sy.addr=i;
+    debug;
+    if(!op_stack.empty()&&!(op_stack[op_stack.size()-1]->true_type-token_class::token::OP_t))
+    {
+      ret_sy.addr=i;
+      ret_sy.car=op_stack[op_stack.size()-1];
+      ret_sy.args={tok_stack[tok_stack.size()-1],tok_stack[tok_stack.size()-2]};
+      op_stack.pop_back();
+      tok_stack.pop_back();
+      tok_stack.pop_back();
+      tok_stack.push_back(new token_class::token(i++));
 
-    //bnf_stack.pop_back();
+      break;
+	
+    }
+    ret_sy.addr=i;
+    ret_sy.car=tok_stack[tok_stack.size()-1];
     tok_stack.pop_back();
-    tok_stack.push_back(token_class::token(i++));
+    tok_stack.push_back(new token_class::token(i++));
+    debug;
+    printf("%d %d\n",tok_stack[tok_stack.size()-1]->true_type,tok_stack[tok_stack.size()-1]->addr);
+    break;
+  case token_class::bnf_token::OP:
+    debug;
+    op_stack.push_back(tok_stack[tok_stack.size()-1]);
+    tok_stack.pop_back();
+    break;
+  case token_class::bnf_token::Rkh:
+    debug;
+    op_stack.pop_back();
+    tok_stack.pop_back();
+    break;
+  case token_class::bnf_token::Lkh:
+    op_stack.push_back(tok_stack[tok_stack.size()-1]);
+    tok_stack.pop_back();
     break;
 
-  case token_class::bnf_token::Rkh:
-    ret_sy.addr=i++;
-    // ret_sy_tree.car=
-
-  default:ret_sy=null_sy_tree;//bnf_stack.pop_back();
+  default:ret_sy=null_sy_tree;debug;//bnf_stack.pop_back();
     
   }
   bnf_stack.pop_back();
 
+  debug;
   return ret_sy;
   
   
 }  
 
-synatax_tree_class::synatax_tree synatax_read::operator()(token_class::token tok)
+synatax_tree_class::synatax_tree synatax_read::operator()(token_class::token &tok)
 {
   std::vector<token_class::bnf_token> th_next;
 
+  this->tok_stack.push_back(&tok);
+  debug;
+  printf("llll,%d\n",this->bnf_stack[this->bnf_stack.size()-1].stat);
+    debug;
   while(true)
   {  
-    this->tok_stack.push_back(tok);
-    th_next=ret_fun(this->bnf_stack[-1],tok);
+    th_next=ret_fun(this->bnf_stack[this->bnf_stack.size()-1],tok);
+    debug;
+    for(int i=th_next.size()-1;i>=0;i--) printf("ooo,%d\n",th_next[i].stat);
+    debug;
+    this->bnf_stack.pop_back();
     for(int i=th_next.size()-1;i>=0;i--) this->bnf_stack.push_back(th_next[i]);
-    if(!(this->bnf_stack[-1].stat-token_class::bnf_token::Ter))
+    for(int i=this->bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",this->bnf_stack[i].stat);
+    debug;
+    if(!(this->bnf_stack[this->bnf_stack.size()-1].stat-token_class::bnf_token::Ter))
       return do_stack_fun(this->bnf_stack,this->tok_stack,this->op_stack);
     
   } 

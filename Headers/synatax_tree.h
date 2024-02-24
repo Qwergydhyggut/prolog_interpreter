@@ -8,8 +8,8 @@ namespace synatax_tree_class
 {
   struct synatax_tree
   {
-    token_class::token car;
-    std::vector<token_class::token> args;
+    token_class::token *car=new token_class::token();
+    std::vector<token_class::token*> args;
     int addr;
   };
   

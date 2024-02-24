@@ -6,6 +6,7 @@
 #include <vector>
 #include "token.h"
 #include "synatax/meta_map.hpp"
+#include "synatax/synatax_ptr.h"
 
 
 // bool operator<(const token_class::token tok,const token_class::token tok1)
@@ -67,3 +68,40 @@ TEST(synatax, vec)
 
   
 }
+
+TEST(synatax, default_syna)
+{
+  synatax_mod::synatax_read test;
+  token_class::token a1;a1.true_type=token_class::token::Inter_t;
+  token_class::token a2;a2.true_type=token_class::token::OP_t;
+  token_class::token a3;a3.true_type=token_class::token::Inter_t;
+  token_class::token a4;a4.true_type=token_class::token::Lkh_t;
+  token_class::token a5;a5.true_type=token_class::token::Rkh_t;
+
+  synatax_tree_class::synatax_tree res;
+  // res=test(a1);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  // res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  // res=test(a3);printf("addr %d,car %d,args %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[1]->true_type,res.args[1]->addr);
+  // res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a4);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a1);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a5);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+
+  
+}
+
+// TEST(synatax,do_ptr)
+// {
+//   synatax_mod::synatax_read test(synatax_ptr_class::ret_ptr,synatax_ptr_class::do_stack_ptr);
+//   token_class::token a1;a1.true_type=token_class::token::Inter_t;
+//   token_class::token a2;a2.true_type=token_class::token::OP_t;
+//   token_class::token a3;a3.true_type=token_class::token::Inter_t;
+
+//   synatax_tree_class::synatax_tree res=test(a1);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+//   res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+//   res=test(a3);printf("addr %d,car %d,args %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[1]->true_type,res.args[1]->addr);
+//   res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+//   res=test(a3);printf("addr %d,car %d,args %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[1]->true_type,res.args[1]->addr);
+
+  
+// }

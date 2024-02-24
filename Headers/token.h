@@ -12,14 +12,15 @@ namespace token_class
   class token
   {
   public:
-    token(int i):addr(i){};
+    token(int i):addr(i),true_type(Addr){};
     token(){};
     int token_exp=0;
     std::string str="mdzz";
     enum{Atom,Inter,Var,Ter} token_type;
     typedef enum{ENABLE_TOKEN_OBJ} Stat;
     Stat true_type;
-    int addr;
+    unsigned int addr=0;
+    unsigned int pri;
     // lexer_mod::lexer_read *prev;
     
     
