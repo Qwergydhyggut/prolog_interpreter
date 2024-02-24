@@ -86,22 +86,35 @@ TEST(synatax, default_syna)
   res=test(a4);printf("addr %d,car %d\n",res.addr,res.car->true_type);
   res=test(a1);printf("addr %d,car %d\n",res.addr,res.car->true_type);
   res=test(a5);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a3);printf("addr %d,car %d,args %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[1]->true_type,res.args[1]->addr);
+  // res=test(a5);printf("addr %d,car %d,args %d %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[0]->addr,res.args[1]->true_type,res.args[1]->addr);
 
   
 }
 
-// TEST(synatax,do_ptr)
-// {
-//   synatax_mod::synatax_read test(synatax_ptr_class::ret_ptr,synatax_ptr_class::do_stack_ptr);
-//   token_class::token a1;a1.true_type=token_class::token::Inter_t;
-//   token_class::token a2;a2.true_type=token_class::token::OP_t;
-//   token_class::token a3;a3.true_type=token_class::token::Inter_t;
+TEST(synatax,do_ptr)
+{
+  synatax_mod::synatax_read test(synatax_ptr_class::ret_ptr,synatax_ptr_class::do_stack_ptr);
+  token_class::token a0;a0.true_type=token_class::token::Ter_t;
+  token_class::token a1;a1.true_type=token_class::token::Atom_t;
+  token_class::token a2;a2.true_type=token_class::token::OP_t;
+  token_class::token a3;a3.true_type=token_class::token::Atom_t;
+  token_class::token a4;a4.true_type=token_class::token::OP_t;
 
-//   synatax_tree_class::synatax_tree res=test(a1);printf("addr %d,car %d\n",res.addr,res.car->true_type);
-//   res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
-//   res=test(a3);printf("addr %d,car %d,args %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[1]->true_type,res.args[1]->addr);
-//   res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
-//   res=test(a3);printf("addr %d,car %d,args %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[1]->true_type,res.args[1]->addr);
+  a2.pri=3;
+  a4.pri=2;
+  synatax_tree_class::synatax_tree res=test(a1);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a2);printf("zzzzzzzzzzz,addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a3);printf("zzzzzzzzzzz,addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a4);printf("zzzzzzzzzzz,addr %d,car %d\n",res.addr,res.car->true_type);
+  // res=test(a3);printf("addr %d,car %d,args %d %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[0]->addr,res.args[1]->true_type,res.args[1]->addr);
+  res=test(a3);printf("zzzzzzzzzzz,addr %d,car %d\n",res.addr,res.car->true_type);
+  // res=test(a2);printf("addr %d,car %d\n",res.addr,res.car->true_type);
+  res=test(a0);printf("addr %d,car %d,args %d %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[0]->addr,res.args[1]->true_type,res.args[1]->addr);
+  // res=test(a0);printf("addr %d,car %d,args %d %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[0]->addr,res.args[1]->true_type,res.args[1]->addr);
+  // res=test(a0);printf("addr %d,car %d,args %d %d \n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[1]->true_type);
+  res=test(a0);printf("zzzzzzzzzzz,addr %d,car %d,args %d %d %d %d\n",res.addr,res.car->true_type,res.args[0]->true_type,res.args[0]->addr,res.args[1]->true_type,res.args[1]->addr);
 
   
-// }
+}

@@ -48,6 +48,7 @@ namespace lexer_mod
     };
 
   public:
+    static token_class::token null_token;
     lexer_read();
     lexer_read(std::function<bool(char,char)> fun_ptr,std::function<void(token_class::token&)> fun_ptr1=0);
     ~lexer_read();
@@ -62,7 +63,6 @@ namespace lexer_mod
     // bool (*fun_ifter)(char,char);
     std::function<bool(char,char)> fun_ifter;
     std::function<void(token_class::token&)> fun_set_token;
-    static token_class::token null_token;
     //int ter_save;
     std::vector<lexer_node*> lexer_list;
     token_num_sp::token_num ter_save;

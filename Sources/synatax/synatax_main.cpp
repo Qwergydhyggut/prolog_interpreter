@@ -100,7 +100,7 @@ std::vector<token_class::bnf_token> synatax_read::init_ret_fun(token_class::bnf_
 	 {token_class::token::Lkh_t,{E,Ter}}}},
      {E,{{token_class::token::Inter_t,{F,E2}},
 	 {token_class::token::Lkh_t,{F,E2}}}},
-     {F,{{token_class::token::Inter_t,{ID,E2}},
+     {F,{{token_class::token::Inter_t,{ID}},
 	 {token_class::token::Lkh_t,{Lkh,E,Rkh}}}}, //Ter E2 E2 ID
      {E2,{{token_class::token::Ter_t,{Ter}},        //Ter E2 E2 Rkh E2 E2 
 	  // {token_class::token::OR_t,{OP,E}},       Ter E2 Rkh E2 E2 
@@ -136,6 +136,7 @@ std::vector<token_class::bnf_token> synatax_read::init_ret_fun(token_class::bnf_
 synatax_tree_class::synatax_tree synatax_read::init_do_stack_fun(std::vector<token_class::bnf_token> &bnf_stack,std::vector<token_class::token*> &tok_stack,std::vector<token_class::token*> &op_stack)
 {
   static int i=1;
+  static token_class::bnf_token ID(token_class::bnf_token::ID);
   synatax_tree_class::synatax_tree ret_sy;
 
   bnf_stack.pop_back();
@@ -151,6 +152,8 @@ synatax_tree_class::synatax_tree synatax_read::init_do_stack_fun(std::vector<tok
   //   break;
       
   // }
+
+here:  
   switch(bnf_stack[bnf_stack.size()-1].stat)
   {
   case token_class::bnf_token::ID:
@@ -184,6 +187,9 @@ synatax_tree_class::synatax_tree synatax_read::init_do_stack_fun(std::vector<tok
     debug;
     op_stack.pop_back();
     tok_stack.pop_back();
+    bnf_stack.pop_back();
+    bnf_stack.push_back(ID);
+    goto here;
     break;
   case token_class::bnf_token::Lkh:
     op_stack.push_back(tok_stack[tok_stack.size()-1]);
@@ -215,8 +221,10 @@ synatax_tree_class::synatax_tree synatax_read::operator()(token_class::token &to
     debug;
     for(int i=th_next.size()-1;i>=0;i--) printf("ooo,%d\n",th_next[i].stat);
     debug;
+    for(int i=this->bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",this->bnf_stack[i].stat);
     this->bnf_stack.pop_back();
     for(int i=th_next.size()-1;i>=0;i--) this->bnf_stack.push_back(th_next[i]);
+    debug;
     for(int i=this->bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",this->bnf_stack[i].stat);
     debug;
     if(!(this->bnf_stack[this->bnf_stack.size()-1].stat-token_class::bnf_token::Ter))
