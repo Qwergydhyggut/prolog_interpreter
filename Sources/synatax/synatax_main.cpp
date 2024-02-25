@@ -234,3 +234,215 @@ synatax_tree_class::synatax_tree synatax_read::operator()(token_class::token &to
   
   
 }  
+
+token_class::token *synatax_read::test_fun1()
+{
+  static int i;
+
+  token_class::token a0;a0.true_type=token_class::token::Ter_t;
+  token_class::token a1;a1.true_type=token_class::token::Inter_t;
+  token_class::token a2;a2.true_type=token_class::token::OP_t;
+  token_class::token a3;a3.true_type=token_class::token::Atom_t;
+  token_class::token a4;a4.true_type=token_class::token::OP_t;
+  token_class::token a5;a5.true_type=token_class::token::Lkh_t;
+  token_class::token a6;a6.true_type=token_class::token::Rkh_t;
+  token_class::token a7;a7.true_type=token_class::token::D_t;
+  token_class::token a8;a8.true_type=token_class::token::OP_t;
+  token_class::token a9;a9.true_type=token_class::token::OP_t;
+  token_class::token a10;a10.true_type=token_class::token::OP_t;
+
+  a2.pri=1;
+  a4.pri=2;
+  a8.pri=3;
+  a9.pri=4;
+  a10.pri=5;
+  std::vector<token_class::token> test_t={a5,a1,a4,a5,a1,a10,a1,a6,a6,a2,a1,a4,a1,a0};//a9,a1,a8,a1,a4,a1,a2,a1,a0};
+  //   {token_class::token::Atom,
+  //   token_class::token::Atom};
+
+  return &test_t[i++];
+
+  
+}
+
+std::vector<token_class::bnf_token> synatax_read::operator()(int,token_class::bnf_token bt)
+{
+  std::vector<token_class::bnf_token> mdzz;
+  std::vector<token_class::bnf_token> th_next;
+
+  static token_class::bnf_token T(token_class::bnf_token::T);
+  static token_class::bnf_token T1(token_class::bnf_token::T1);
+  static token_class::bnf_token T2(token_class::bnf_token::T2);
+  static token_class::bnf_token E(token_class::bnf_token::E);
+  static token_class::bnf_token E1(token_class::bnf_token::E1);
+  static token_class::bnf_token E2(token_class::bnf_token::E2);
+  static token_class::bnf_token S(token_class::bnf_token::S);
+  static token_class::bnf_token F(token_class::bnf_token::F);
+  static token_class::bnf_token OP(token_class::bnf_token::OP);
+  static token_class::bnf_token Ter(token_class::bnf_token::Ter);
+  static token_class::bnf_token Lkh(token_class::bnf_token::Lkh);
+  static token_class::bnf_token Rkh(token_class::bnf_token::Rkh);
+  static token_class::bnf_token ID(token_class::bnf_token::ID);
+
+  static std::map<token_class::bnf_token,std::map<token_class::token::Stat,std::vector<token_class::bnf_token>>> synatax_bnf=
+    {{S,{{token_class::token::Inter_t,{E}},
+      	 {token_class::token::Lkh_t,{E}}}},
+     {E,{{token_class::token::Inter_t,{F,E2}},
+	 {token_class::token::Lkh_t,{F,E2}}}},
+     {F,{{token_class::token::Inter_t,{ID}},
+	 {token_class::token::Lkh_t,{Lkh,T}}}}, //Ter E2 E2 ID
+     {T,{{token_class::token::Inter_t,{ID,E1}},
+	 {token_class::token::Rkh_t,{Rkh}}}},
+     {E1,{{token_class::token::Lkh_t,{Lkh,T}},
+	  {token_class::token::Rkh_t,{Rkh}},
+	  {token_class::token::OP_t,{OP,F,Rkh}}}},
+     {E2,{{token_class::token::Ter_t,{Ter,Ter}},        //Ter E2 E2 Rkh E2 E2 
+	  //{token_class::token::Rkh_t,{Ter,Rkh}},
+	  // {token_class::token::OR_t,{OP,E}},       Ter E2 Rkh E2 E2 
+	  {token_class::token::OP_t,{OP,E}}}},
+     {ID,{{token_class::token::Inter_t,{Ter,ID}}}},
+     {Lkh,{{token_class::token::Lkh_t,{Ter,Lkh}}}},
+     {Rkh,{{token_class::token::Rkh_t,{Ter,Rkh}}}},
+     {OP,{{token_class::token::OP_t,{Ter,OP}}}}};
+
+  std::vector<token_class::bnf_token> bnf_stack;
+  std::vector<token_class::token*> tok_stack;
+  bnf_stack.push_back(bt);
+  token_class::token *tok=test_fun();
+  tok_stack.push_back(tok);
+  debug;
+  printf("llll,%d\n",bnf_stack[bnf_stack.size()-1].stat);
+  debug;
+  for(int i=bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",bnf_stack[i].stat);
+  debug;
+  while(true)
+  {  
+    th_next=synatax_bnf[bnf_stack[bnf_stack.size()-1]][tok->true_type];
+    // debug;
+    // for(int i=th_next.size()-1;i>=0;i--) printf("ooo,%d\n",th_next[i].stat);
+    // debug;
+    // for(int i=bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",bnf_stack[i].stat);
+    bnf_stack.pop_back();
+    for(int i=th_next.size()-1;i>=0;i--) bnf_stack.push_back(th_next[i]);
+    // debug;
+    for(int i=bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",bnf_stack[i].stat);
+    debug;
+    if(!(bnf_stack[bnf_stack.size()-1].stat-token_class::bnf_token::Ter))
+      {
+	bnf_stack.pop_back();
+	bnf_stack[bnf_stack.size()-1].is_ter=tok;
+	return bnf_stack;//do_stack_fun(this->bnf_stack,this->tok_stack,this->op_stack);
+      }
+    
+  } 
+  
+
+  
+}
+
+std::vector<token_class::bnf_token> synatax_read::do_that1(std::vector<token_class::bnf_token> bnf_st,std::vector<token_class::token*> op_st)
+{
+  token_class::bnf_token bt;
+  std::vector<token_class::bnf_token> ret;
+  static int i;
+
+  debug;
+  // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
+  ret=this->operator()(0,bnf_st[bnf_st.size()-1]);
+  // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
+  // debug;
+  bnf_st.pop_back();
+  // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
+  for(int i=0;i<ret.size();i++) bnf_st.push_back(ret[i]);
+  // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
+  // debug;
+  // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
+  //printf("iiiii,%d\n",ret[i].stat);
+  bt=bnf_st[bnf_st.size()-1];
+  bnf_st.pop_back();
+  // printf("%d\n",bt.stat);
+  for(int i=0;i<bnf_st.size();i++) printf("tttttt\t,%d\n",bnf_st[i].stat);
+  debug;
+  // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
+
+  switch(bt.stat)
+  {
+  case token_class::bnf_token::ID:
+  debug;
+  if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
+    printf("push %d\n",++i);
+    return do_that(bnf_st,op_st);
+
+  case token_class::bnf_token::OP:
+    debug;
+    // if(op_st.empty())
+    // {
+    //   for(int i=ret.size()-1;i>=0;i--) bnf_st.push_back(ret[i]);
+    //   op_st.push_back(bt.is_ter);
+    //   return do_that(bnf_st,op_st);
+	
+    // }
+
+    while(!op_st.empty()&&op_st[op_st.size()-1]->pri<=bt.is_ter->pri)
+    {
+      printf("pop %d\n",i--);
+      printf("pop %d\n",i--);
+      printf("do %d\n",op_st[op_st.size()-1]->pri);
+      printf("push %d\n",++i);
+      op_st.pop_back();
+      
+    }
+    // ret=do_that(bnf_st,op_st);
+
+    // for(int i=0;i<ret.size();i++) bnf_st.push_back(ret[i]);
+    op_st.push_back(bt.is_ter);
+    printf("%d\n",bt.is_ter->true_type);
+    // printf("%lld\n",op_st[0]);
+    // printf("%lld\n",op_st[0]->true_type);
+    debug;
+    return do_that(bnf_st,op_st);
+
+  case token_class::bnf_token::Lkh:
+    debug;
+    for(int i=0;i<bnf_st.size();i++) printf("tttttt\t,%d\n",bnf_st[i].stat);
+    ret=do_that(bnf_st);
+    return do_that(ret,op_st);
+    
+  case token_class::bnf_token::Rkh:
+    debug;
+    while(!op_st.empty())
+    {
+      printf("pop %d\n",i--);
+      printf("pop %d\n",i--);
+      debug;
+      printf("do %lld\n",op_st[op_st.size()-1]->pri);
+      printf("push %d\n",++i);
+      debug;
+      op_st.pop_back();
+	
+    }
+
+    return bnf_st;
+    
+  case token_class::bnf_token::Ter:
+    debug;
+    while(!op_st.empty())
+    {
+      printf("pop %d\n",i--);
+      printf("pop %d\n",i--);
+      debug;
+      printf("do %lld\n",op_st[op_st.size()-1]->pri);
+      printf("push %d\n",++i);
+      debug;
+      op_st.pop_back();
+	
+    }
+
+    return {};
+
+      
+  }
+  debug;
+
+  
+}

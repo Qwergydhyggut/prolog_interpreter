@@ -3,8 +3,8 @@
 #include <locale>
 #include <string>
 //#include "lexer.h"
-#define ENABLE_TOKEN_OBJ Atom_t,Inter_t,Var_t,Ter_t,Rkh_t,Lkh_t,OP_t,AND_t,OR_t,D_t,Addr
-#define ENABLE_BNF_TOKEN S,E,T,Ter,ID,Lkh,Rkh,E1,T1,OP,E2,T2,F
+#define ENABLE_TOKEN_OBJ Atom_t,Inter_t,Var_t,Ter_t,Rkh_t,Lkh_t,OP_t,AND_t,OR_t,D_t,Assert_t,Set_t,Addr
+#define ENABLE_BNF_TOKEN S,E,T,Ter,ID,Lkh,Rkh,E1,T1,OP,E2,T2,F,D,T3,F1,Assert,Set
 
 
 namespace token_class
@@ -28,10 +28,10 @@ namespace token_class
 
   struct bnf_token
   {
-    token is_ter;
+    token *is_ter;
     typedef enum {ENABLE_BNF_TOKEN} Stat;
     Stat stat;
-    bnf_token(Stat rcs);
+    bnf_token(Stat rcs=S);
     bool operator<(const bnf_token &rkh) const;
   };
 
