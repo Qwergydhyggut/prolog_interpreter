@@ -6,12 +6,12 @@ test_link=$(link) -lgtest
 test_jg=test_$(jg)
 
 test_yc=$(call delfirst,$(yc)) test_main.cpp #lexer_test.hpp synatax_test.hpp
-test_yh=$(yh) lexer_test.hpp synatax_test.hpp
+test_yh=$(yh) lexer_test.hpp synatax_test.hpp analysis_test.hpp
 #yrc=
 #yo=
 
-test_ljc=$(addprefix ../,$(call delfirst,$(ljc))) lexer synatax
-test_ljh=$(addprefix ../,$(ljh)) lexer synatax
+test_ljc=$(addprefix ../,$(call delfirst,$(ljc))) lexer synatax analysis
+test_ljh=$(addprefix ../,$(ljh)) lexer synatax analysis
 #ljr=Resources
 #ljo=Others
 

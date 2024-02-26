@@ -15,16 +15,18 @@ zj=zj
 
 ycmode_lexer=lexer_main.cpp token_num.cpp lexer_select.cpp
 ycmode_synatax=synatax_main.cpp synatax_ptr.cpp
-yc=yuan.cpp $(ycmode_lexer) $(ycmode_synatax)
+ycmode_analysis=analysis_main.cpp
+yc=yuan.cpp $(ycmode_lexer) $(ycmode_synatax) $(ycmode_analysis)
 yhmode_lexer=lexer/token_num.h lexer/lexer_select.h
 yhmode_synatax=synatax.h synatax_tree.h synatax/meta_map.hpp synatax/synatax_ptr.h
-yh=lexer.h token.h debug.h $(yhmode_lexer) $(yhmode_synatax)
+yhmode_analysis=analysis.h
+yh=lexer.h token.h debug.h $(yhmode_lexer) $(yhmode_synatax) $(yhmode_analysis)
 #yhmode_lexer=lexer/token_num.h lexer/lexer_select.h
 #yhmode_synatax=synatax.h synatax_tree.h synatax/meta_map.hpp synatax/synatax_ptr.h
 #yrc=
 #yo=
 
-ljc=Sources Sources/lexer Sources/synatax
+ljc=Sources Sources/lexer Sources/synatax Sources/analysis
 ljh=Headers
 #ljr=Resources
 #ljo=Others

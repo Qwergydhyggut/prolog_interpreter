@@ -1,5 +1,6 @@
 #include "lexer_test.hpp"
 #include "synatax_test.hpp"
+#include "analysis/analysis_test.hpp"
 // #include <cstdio>
 // #include <iostream>
 // #include "lexer.h"

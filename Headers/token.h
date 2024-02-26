@@ -21,6 +21,7 @@ namespace token_class
     Stat true_type;
     unsigned int addr=0;
     unsigned int pri=0;
+    unsigned int args=2;
     // lexer_mod::lexer_read *prev;
     
     

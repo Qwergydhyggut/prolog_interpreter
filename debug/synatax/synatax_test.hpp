@@ -182,3 +182,10 @@ TEST(synatax, new_test)
   
   
 }
+
+TEST(synatax, sqldo)
+{
+  debug;
+
+  
+}
