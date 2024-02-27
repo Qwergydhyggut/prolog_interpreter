@@ -128,6 +128,23 @@ namespace lexer_mod
     {
       auto &tok=test(teststr[i],teststr[i+1]);
       // tok.str[0]='n';
+    printf("%d\n",select_token_class::stat);
+      std::cout<<tok.token_type<<'\t'<<tok.str<<std::endl;
+      debug;
+    printf("%d\n",select_token_class::stat);
+
+    }
+
+    // stop
+    debug;
+    printf("%d\n",select_token_class::stat);
+    // stop;
+    test.__debug_ret_lexer();
+
+    for(int i=0;teststr[i+1]-'\0';i++)
+    {
+      auto &tok=test(teststr[i],teststr[i+1]);
+      // tok.str[0]='n';
       std::cout<<tok.token_type<<'\t'<<tok.str<<std::endl;
 
     }

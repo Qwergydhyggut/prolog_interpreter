@@ -178,7 +178,7 @@ TEST(synatax, new_test)
   // res=test();for(int i=0;i<res.size();i++) printf("%d\t",res[i].stat);std::cout<<std::endl;
 
   // test.do_that1();
-  test.do_that();
+  // test.do_that();
   
   
 }
@@ -186,6 +186,10 @@ TEST(synatax, new_test)
 TEST(synatax, sqldo)
 {
   debug;
+  synatax_mod::synatax_read test;
+  synatax_ptr_sql lll;
+
+  test(&lll);
 
   
 }

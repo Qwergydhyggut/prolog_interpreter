@@ -72,7 +72,7 @@ token_class::token &lexer_read::operator()(char c,char c1)
   if(this->fun_ifter(c,c1))
     if(!(this->this_node-this->first_node)&&!this->this_node->get_next_node(c)) return null_token;
     else if(this->this_node->get_terminal()) {// debug;
-      return this->this_node=this->first_node,this->last_node->get_token();}
+      return this->this_node=this->first_node,this->fun_set_token?(this->fun_set_token(null_token),0):0,this->last_node->get_token();}
     else
     {
       int ter_save=this->ter_save();
@@ -193,7 +193,7 @@ lexer_read::lexer_node *lexer_read::lexer_node::get_node_fork()
 
 static int mdzztest;
 token_class::token lexer_read::null_token=token_class::token();
-token_class::token &lexer_read::lexer_node::set_node(int ter){this->set_terminal(ter)/*,this->token=(token_class::token*)++mdzztest*/;if(this->fun_set_token)this->fun_set_token(this->token);/*printf("%ld\n",&this->token);debug*/;return this->token;}
+token_class::token &lexer_read::lexer_node::set_node(int ter){this->set_terminal(ter)/*,this->token=(token_class::token*)++mdzztest*/;if(this->fun_set_token)this->fun_set_token(this->token);debug;/*printf("%ld\n",&this->token);debug*/;return this->token;}
 
 lexer_read::lexer_node *lexer_read::lexer_node::get_next_node(char c)
 {

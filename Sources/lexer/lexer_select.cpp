@@ -11,8 +11,8 @@
 select_token_class::Stat select_token_class::stat=Init;
 bool select_token_class::select_token_fun_ptr(char c, char c1)
 {
-  // printf("lll\n");
-  // debug;
+  printf("lll,%d\n",stat);
+  debug;
 here:  
   switch(stat)
   {
@@ -26,7 +26,8 @@ here:
     goto here;
 
   case Ter:
-    // debug;
+    debug;
+    // stop;
     return true;
     
   case Atom_obj:
@@ -46,6 +47,8 @@ here:
     break;
     
   case Inter:
+    debug;
+    // stop
     if(is_inter(c1)) return false;
     //stat=Init;
     break;
@@ -61,8 +64,8 @@ here:
 
 void select_token_class::select_set_token_ptr(token_class::token &tok)
 {
-  // printf("aaa\n");
-  // debug;
+  printf("aaa\n");
+  debug;
   switch(stat)
   {
   case Atom_var:  
@@ -74,6 +77,8 @@ void select_token_class::select_set_token_ptr(token_class::token &tok)
   }
 
   stat=Init;
+  printf("%d\n",stat);
+  debug;
   
   
 }  
@@ -116,9 +121,40 @@ bool select_token_class::is_ter(char c)
   
 bool select_token_class::is_inter(char c)
 {
+  // printf("%d",c>47&&c<58);
+  // stop;
   if(c>47&&c<58) return true;
   
   return false;
 
   
-}  
+}
+
+
+get_token_next::get_token_next(std::string str)
+{
+  this->str=str;
+  this->i=0;
+  this->tok=new lexer_mod::lexer_read(select_token_class::select_token_fun_ptr,select_token_class::select_set_token_ptr);
+
+  
+}
+
+get_token_next::~get_token_next()
+{
+  delete this->tok;
+
+  
+}    
+
+token_class::token *get_token_next::operator()()
+{
+  for(token_class::token *tok_ptr;this->i+1<this->str.size();this->i++)
+    if((tok_ptr=&(*this->tok)(this->str[this->i],this->str[this->i+1]))->token_exp)
+    {
+      this->i++;
+      return tok_ptr;
+    }
+
+  
+}
