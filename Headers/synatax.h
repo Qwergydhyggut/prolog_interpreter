@@ -19,15 +19,16 @@ namespace synatax_mod
   public:
     static synatax_tree_class::synatax_tree null_sy_tree;
     synatax_read(RET_FUN_TYPE ptr=init_ret_fun, DO_STACK_FUN ptr1=init_do_stack_fun);
-    synatax_tree_class::synatax_tree operator()(token_class::token &tok);
+    // synatax_tree_class::synatax_tree operator()(token_class::token &tok);
 
-    std::vector<token_class::bnf_token> operator()(int,token_class::bnf_token bt=token_class::bnf_token::S);
+    // std::vector<token_class::bnf_token> operator()(int,token_class::bnf_token bt=token_class::bnf_token::S);
     std::vector<token_class::bnf_token> operator()(token_class::bnf_token bt=token_class::bnf_token::S);
+    std::vector<token_class::bnf_token> next_bnf_list(token_class::bnf_token bt=token_class::bnf_token::S);
     std::vector<token_class::bnf_token> do_that(std::vector<token_class::bnf_token> bnf_st={token_class::bnf_token::S},std::vector<token_class::token*> op_st={});
-    std::vector<token_class::bnf_token> do_that1(std::vector<token_class::bnf_token> bnf_st={token_class::bnf_token::S},std::vector<token_class::token*> op_st={});
+    // std::vector<token_class::bnf_token> do_that1(std::vector<token_class::bnf_token> bnf_st={token_class::bnf_token::S},std::vector<token_class::token*> op_st={});
     token_class::token *test_fun();
-    token_class::token *test_fun1();
-    std::function<token_class::token*()> ret_next_fun;
+    // token_class::token *test_fun1();
+    // std::function<token_class::token*()> ret_next_fun;
     
   private:
     RET_FUN_TYPE ret_fun;

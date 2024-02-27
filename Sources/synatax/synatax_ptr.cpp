@@ -9,12 +9,14 @@
 
 synatax_tree_class::synatax_tree synatax_ptr_class::D_sy_tree=synatax_tree_class::synatax_tree(-1);
 
-std::vector<token_class::bnf_token> synatax_ptr_class::ret_ptr(token_class::bnf_token bt,token_class::token tok)
+std::vector<token_class::bnf_token> synatax_ptr_class::ret_ptr(token_class::bnf_token bt,token_class::token *tok)
 {
+  debug;
   std::vector<token_class::bnf_token> mdzz;
   static token_class::bnf_token T(token_class::bnf_token::T);
   static token_class::bnf_token T1(token_class::bnf_token::T1);
   static token_class::bnf_token T2(token_class::bnf_token::T2);
+  static token_class::bnf_token T3(token_class::bnf_token::T3);
   static token_class::bnf_token E(token_class::bnf_token::E);
   static token_class::bnf_token E1(token_class::bnf_token::E1);
   static token_class::bnf_token E2(token_class::bnf_token::E2);
@@ -25,36 +27,101 @@ std::vector<token_class::bnf_token> synatax_ptr_class::ret_ptr(token_class::bnf_
   static token_class::bnf_token Lkh(token_class::bnf_token::Lkh);
   static token_class::bnf_token Rkh(token_class::bnf_token::Rkh);
   static token_class::bnf_token ID(token_class::bnf_token::ID);
+  static token_class::bnf_token D(token_class::bnf_token::D);
+  static token_class::bnf_token F1(token_class::bnf_token::F1);
+  static token_class::bnf_token Assert(token_class::bnf_token::Assert);
+  static token_class::bnf_token Set(token_class::bnf_token::Set);
+
   static std::map<token_class::bnf_token,std::map<token_class::token::Stat,std::vector<token_class::bnf_token>>> synatax_bnf=
-    {{S,{{token_class::token::Inter_t,{E,Ter}},
-	 {token_class::token::Atom_t,{E,Ter}},
-	 {token_class::token::OP_t,{E,Ter}},
-	 {token_class::token::Lkh_t,{E,Ter}}}},
+    {{S,{{token_class::token::Inter_t,{E}},
+	 {token_class::token::Atom_t,{E}},
+	 {token_class::token::OP_t,{E}},
+      	 {token_class::token::Lkh_t,{E}},
+	 {token_class::token::Assert_t,{Assert,F,F1}}}},
+     {F1,{{token_class::token::Set_t,{Set,E}},
+	  {token_class::token::Ter_t,{Ter,Ter}}}},
      {E,{{token_class::token::Inter_t,{F,E2}},
 	 {token_class::token::Atom_t,{F,E2}},
 	 {token_class::token::OP_t,{F,E2}},
 	 {token_class::token::Lkh_t,{F,E2}}}},
      {F,{{token_class::token::Inter_t,{ID}},
 	 {token_class::token::Atom_t,{ID}},
-	 {token_class::token::OP_t,{Ter,T2,Lkh,E,E1,F}}, //函数处理
-	 {token_class::token::Lkh_t,{Lkh,E,Rkh}}}}, //Ter E2 E2 ID
-     {E1,{{token_class::token::D_t,{Ter,T1,E,E1}},
-	  {token_class::token::Rkh_t,{Ter}}}},
-     {E2,{{token_class::token::Ter_t,{Ter,T}},        //Ter E2 E2 Rkh E2 E2 
-	  {token_class::token::D_t,{OP,E}},
-	  {token_class::token::OP_t,{OP,E}}}},
+	 {token_class::token::OP_t,{OP,T1}},
+	 {token_class::token::Lkh_t,{Lkh,T}}}}, //Ter E2 E2 ID
+     {T,{{token_class::token::Inter_t,{ID,E1}},
+	 {token_class::token::Atom_t,{ID,E1}},
+	 {token_class::token::OP_t,{OP,T1}},
+	   {token_class::token::Lkh_t,{E1}},
+	 {token_class::token::Rkh_t,{Rkh}}}},
+     {T1,{{token_class::token::Lkh_t,{Lkh,T3}},
+	  {token_class::token::Atom_t,{ID}},
+	  {token_class::token::Inter_t,{ID}}}},
+     {T3,{{token_class::token::Atom_t,{ID,T2}},
+	   {token_class::token::Lkh_t,{E1}},
+	  {token_class::token::Inter_t,{ID,T2}},
+	  {token_class::token::Rkh_t,{Rkh}}}},
+     {T2,{{token_class::token::D_t,{D,T3}},
+	  {token_class::token::Rkh_t,{Rkh}}}},
+     {E1,{{token_class::token::Lkh_t,{Lkh,T}},
+	  {token_class::token::Rkh_t,{Rkh}},
+	  {token_class::token::OP_t,{F,Rkh}}}},
+     {E2,{{token_class::token::Ter_t,{Ter,Ter}},        //Ter E2 E2 Rkh E2 E2 
+	  //{token_class::token::Rkh_t,{Ter,Rkh}},
+	  // {token_class::token::OR_t,{OP,E}},       Ter E2 Rkh E2 E2 
+	  {token_class::token::D_t,{OP,F,E2}},
+	  {token_class::token::OP_t,{OP,F,E2}}}},
      {ID,{{token_class::token::Inter_t,{Ter,ID}},
 	  {token_class::token::Atom_t,{Ter,ID}}}},
      {Lkh,{{token_class::token::Lkh_t,{Ter,Lkh}}}},
      {Rkh,{{token_class::token::Rkh_t,{Ter,Rkh}}}},
-     {OP,{{token_class::token::OP_t,{Ter,OP}},
-	  {token_class::token::D_t,{Ter,OP}}}},
-  // printf("addr %d,car %d\n",res[10].addr,res[10].car->true_type);
-     {T,{{token_class::token::Ter_t,{Ter,T}}}}};
-  printf("%d %d %d\n",bt.stat,tok.true_type,Rkh.stat);
+     {D,{{token_class::token::D_t,{Ter,D}}}},
+     {Set,{{token_class::token::Set_t,{Ter,Set}}}},
+     {Assert,{{token_class::token::Assert_t,{Ter,Assert}}}},
+     {OP,{{token_class::token::OP_t,{Ter,OP}}}}};
+  // std::vector<token_class::bnf_token> mdzz;
+  // static token_class::bnf_token T(token_class::bnf_token::T);
+  // static token_class::bnf_token T1(token_class::bnf_token::T1);
+  // static token_class::bnf_token T2(token_class::bnf_token::T2);
+  // static token_class::bnf_token E(token_class::bnf_token::E);
+  // static token_class::bnf_token E1(token_class::bnf_token::E1);
+  // static token_class::bnf_token E2(token_class::bnf_token::E2);
+  // static token_class::bnf_token S(token_class::bnf_token::S);
+  // static token_class::bnf_token F(token_class::bnf_token::F);
+  // static token_class::bnf_token OP(token_class::bnf_token::OP);
+  // static token_class::bnf_token Ter(token_class::bnf_token::Ter);
+  // static token_class::bnf_token Lkh(token_class::bnf_token::Lkh);
+  // static token_class::bnf_token Rkh(token_class::bnf_token::Rkh);
+  // static token_class::bnf_token ID(token_class::bnf_token::ID);
+  // static std::map<token_class::bnf_token,std::map<token_class::token::Stat,std::vector<token_class::bnf_token>>> synatax_bnf=
+  //   {{S,{{token_class::token::Inter_t,{E,Ter}},
+  // 	 {token_class::token::Atom_t,{E,Ter}},
+  // 	 {token_class::token::OP_t,{E,Ter}},
+  // 	 {token_class::token::Lkh_t,{E,Ter}}}},
+  //    {E,{{token_class::token::Inter_t,{F,E2}},
+  // 	 {token_class::token::Atom_t,{F,E2}},
+  // 	 {token_class::token::OP_t,{F,E2}},
+  // 	 {token_class::token::Lkh_t,{F,E2}}}},
+  //    {F,{{token_class::token::Inter_t,{ID}},
+  // 	 {token_class::token::Atom_t,{ID}},
+  // 	 {token_class::token::OP_t,{Ter,T2,Lkh,E,E1,F}}, //函数处理
+  // 	 {token_class::token::Lkh_t,{Lkh,E,Rkh}}}}, //Ter E2 E2 ID
+  //    {E1,{{token_class::token::D_t,{Ter,T1,E,E1}},
+  // 	  {token_class::token::Rkh_t,{Ter}}}},
+  //    {E2,{{token_class::token::Ter_t,{Ter,T}},        //Ter E2 E2 Rkh E2 E2 
+  // 	  {token_class::token::D_t,{OP,E}},
+  // 	  {token_class::token::OP_t,{OP,E}}}},
+  //    {ID,{{token_class::token::Inter_t,{Ter,ID}},
+  // 	  {token_class::token::Atom_t,{Ter,ID}}}},
+  //    {Lkh,{{token_class::token::Lkh_t,{Ter,Lkh}}}},
+  //    {Rkh,{{token_class::token::Rkh_t,{Ter,Rkh}}}},
+  //    {OP,{{token_class::token::OP_t,{Ter,OP}},
+  // 	  {token_class::token::D_t,{Ter,OP}}}},
+  // // printf("addr %d,car %d\n",res[10].addr,res[10].car->true_type);
+  //    {T,{{token_class::token::Ter_t,{Ter,T}}}}};
+  // printf("%d %d %d\n",bt.stat,tok.true_type,Rkh.stat);
   debug;
 
-  return synatax_bnf[bt][tok.true_type];
+  return synatax_bnf[bt][tok->true_type];
 
   
 }
@@ -229,80 +296,13 @@ token_class::token *synatax_read::test_fun()
   //   token_class::token::Atom};
 
   return &test_t[i++];
-
-  
 }
 
-std::vector<token_class::bnf_token> synatax_read::operator()(token_class::bnf_token bt)
+std::vector<token_class::bnf_token> synatax_read::next_bnf_list(token_class::bnf_token bt)
 {
   std::vector<token_class::bnf_token> mdzz;
   std::vector<token_class::bnf_token> th_next;
 
-  static token_class::bnf_token T(token_class::bnf_token::T);
-  static token_class::bnf_token T1(token_class::bnf_token::T1);
-  static token_class::bnf_token T2(token_class::bnf_token::T2);
-  static token_class::bnf_token T3(token_class::bnf_token::T3);
-  static token_class::bnf_token E(token_class::bnf_token::E);
-  static token_class::bnf_token E1(token_class::bnf_token::E1);
-  static token_class::bnf_token E2(token_class::bnf_token::E2);
-  static token_class::bnf_token S(token_class::bnf_token::S);
-  static token_class::bnf_token F(token_class::bnf_token::F);
-  static token_class::bnf_token OP(token_class::bnf_token::OP);
-  static token_class::bnf_token Ter(token_class::bnf_token::Ter);
-  static token_class::bnf_token Lkh(token_class::bnf_token::Lkh);
-  static token_class::bnf_token Rkh(token_class::bnf_token::Rkh);
-  static token_class::bnf_token ID(token_class::bnf_token::ID);
-  static token_class::bnf_token D(token_class::bnf_token::D);
-  static token_class::bnf_token F1(token_class::bnf_token::F1);
-  static token_class::bnf_token Assert(token_class::bnf_token::Assert);
-  static token_class::bnf_token Set(token_class::bnf_token::Set);
-
-  static std::map<token_class::bnf_token,std::map<token_class::token::Stat,std::vector<token_class::bnf_token>>> synatax_bnf=
-    {{S,{{token_class::token::Inter_t,{E}},
-	 {token_class::token::Atom_t,{E}},
-	 {token_class::token::OP_t,{E}},
-      	 {token_class::token::Lkh_t,{E}},
-	 {token_class::token::Assert_t,{Assert,F,F1}}}},
-     {F1,{{token_class::token::Set_t,{Set,E}},
-	  {token_class::token::Ter_t,{Ter,Ter}}}},
-     {E,{{token_class::token::Inter_t,{F,E2}},
-	 {token_class::token::Atom_t,{F,E2}},
-	 {token_class::token::OP_t,{F,E2}},
-	 {token_class::token::Lkh_t,{F,E2}}}},
-     {F,{{token_class::token::Inter_t,{ID}},
-	 {token_class::token::Atom_t,{ID}},
-	 {token_class::token::OP_t,{OP,T1}},
-	 {token_class::token::Lkh_t,{Lkh,T}}}}, //Ter E2 E2 ID
-     {T,{{token_class::token::Inter_t,{ID,E1}},
-	 {token_class::token::Atom_t,{ID,E1}},
-	 {token_class::token::OP_t,{OP,T1}},
-	   {token_class::token::Lkh_t,{E1}},
-	 {token_class::token::Rkh_t,{Rkh}}}},
-     {T1,{{token_class::token::Lkh_t,{Lkh,T3}},
-	  {token_class::token::Atom_t,{ID}},
-	  {token_class::token::Inter_t,{ID}}}},
-     {T3,{{token_class::token::Atom_t,{ID,T2}},
-	   {token_class::token::Lkh_t,{E1}},
-	  {token_class::token::Inter_t,{ID,T2}},
-	  {token_class::token::Rkh_t,{Rkh}}}},
-     {T2,{{token_class::token::D_t,{D,T3}},
-	  {token_class::token::Rkh_t,{Rkh}}}},
-     {E1,{{token_class::token::Lkh_t,{Lkh,T}},
-	  {token_class::token::Rkh_t,{Rkh}},
-	  {token_class::token::OP_t,{F,Rkh}}}},
-     {E2,{{token_class::token::Ter_t,{Ter,Ter}},        //Ter E2 E2 Rkh E2 E2 
-	  //{token_class::token::Rkh_t,{Ter,Rkh}},
-	  // {token_class::token::OR_t,{OP,E}},       Ter E2 Rkh E2 E2 
-	  {token_class::token::D_t,{OP,F,E2}},
-	  {token_class::token::OP_t,{OP,F,E2}}}},
-     {ID,{{token_class::token::Inter_t,{Ter,ID}},
-	  {token_class::token::Atom_t,{Ter,ID}}}},
-     {Lkh,{{token_class::token::Lkh_t,{Ter,Lkh}}}},
-     {Rkh,{{token_class::token::Rkh_t,{Ter,Rkh}}}},
-     {D,{{token_class::token::D_t,{Ter,D}}}},
-     {Set,{{token_class::token::Set_t,{Ter,Set}}}},
-     {Assert,{{token_class::token::Assert_t,{Ter,Assert}}}},
-     {OP,{{token_class::token::OP_t,{Ter,OP}}}}};
 
   std::vector<token_class::bnf_token> bnf_stack;
   std::vector<token_class::token*> tok_stack;
@@ -316,7 +316,12 @@ std::vector<token_class::bnf_token> synatax_read::operator()(token_class::bnf_to
   debug;
   while(true)
   {  
-    th_next=synatax_bnf[bnf_stack[bnf_stack.size()-1]][tok->true_type];
+    debug;
+    printf("%d\n",bnf_stack[bnf_stack.size()-1].stat);
+    debug;
+    th_next=synatax_ptr_class::ret_ptr(bnf_stack[bnf_stack.size()-1],tok);
+    debug;
+    // th_next=synatax_bnf[bnf_stack[bnf_stack.size()-1]][tok->true_type];
     // debug;
     // for(int i=th_next.size()-1;i>=0;i--) printf("ooo,%d\n",th_next[i].stat);
     // debug;
@@ -338,6 +343,116 @@ std::vector<token_class::bnf_token> synatax_read::operator()(token_class::bnf_to
 
   
 }
+std::vector<token_class::bnf_token> synatax_read::operator()(token_class::bnf_token bt)
+{
+  std::vector<token_class::bnf_token> mdzz;
+  std::vector<token_class::bnf_token> th_next;
+
+  // static token_class::bnf_token T(token_class::bnf_token::T);
+  // static token_class::bnf_token T1(token_class::bnf_token::T1);
+  // static token_class::bnf_token T2(token_class::bnf_token::T2);
+  // static token_class::bnf_token T3(token_class::bnf_token::T3);
+  // static token_class::bnf_token E(token_class::bnf_token::E);
+  // static token_class::bnf_token E1(token_class::bnf_token::E1);
+  // static token_class::bnf_token E2(token_class::bnf_token::E2);
+  // static token_class::bnf_token S(token_class::bnf_token::S);
+  // static token_class::bnf_token F(token_class::bnf_token::F);
+  // static token_class::bnf_token OP(token_class::bnf_token::OP);
+  // static token_class::bnf_token Ter(token_class::bnf_token::Ter);
+  // static token_class::bnf_token Lkh(token_class::bnf_token::Lkh);
+  // static token_class::bnf_token Rkh(token_class::bnf_token::Rkh);
+  // static token_class::bnf_token ID(token_class::bnf_token::ID);
+  // static token_class::bnf_token D(token_class::bnf_token::D);
+  // static token_class::bnf_token F1(token_class::bnf_token::F1);
+  // static token_class::bnf_token Assert(token_class::bnf_token::Assert);
+  // static token_class::bnf_token Set(token_class::bnf_token::Set);
+
+  // static std::map<token_class::bnf_token,std::map<token_class::token::Stat,std::vector<token_class::bnf_token>>> synatax_bnf=
+  //   {{S,{{token_class::token::Inter_t,{E}},
+  // 	 {token_class::token::Atom_t,{E}},
+  // 	 {token_class::token::OP_t,{E}},
+  //     	 {token_class::token::Lkh_t,{E}},
+  // 	 {token_class::token::Assert_t,{Assert,F,F1}}}},
+  //    {F1,{{token_class::token::Set_t,{Set,E}},
+  // 	  {token_class::token::Ter_t,{Ter,Ter}}}},
+  //    {E,{{token_class::token::Inter_t,{F,E2}},
+  // 	 {token_class::token::Atom_t,{F,E2}},
+  // 	 {token_class::token::OP_t,{F,E2}},
+  // 	 {token_class::token::Lkh_t,{F,E2}}}},
+  //    {F,{{token_class::token::Inter_t,{ID}},
+  // 	 {token_class::token::Atom_t,{ID}},
+  // 	 {token_class::token::OP_t,{OP,T1}},
+  // 	 {token_class::token::Lkh_t,{Lkh,T}}}}, //Ter E2 E2 ID
+  //    {T,{{token_class::token::Inter_t,{ID,E1}},
+  // 	 {token_class::token::Atom_t,{ID,E1}},
+  // 	 {token_class::token::OP_t,{OP,T1}},
+  // 	   {token_class::token::Lkh_t,{E1}},
+  // 	 {token_class::token::Rkh_t,{Rkh}}}},
+  //    {T1,{{token_class::token::Lkh_t,{Lkh,T3}},
+  // 	  {token_class::token::Atom_t,{ID}},
+  // 	  {token_class::token::Inter_t,{ID}}}},
+  //    {T3,{{token_class::token::Atom_t,{ID,T2}},
+  // 	   {token_class::token::Lkh_t,{E1}},
+  // 	  {token_class::token::Inter_t,{ID,T2}},
+  // 	  {token_class::token::Rkh_t,{Rkh}}}},
+  //    {T2,{{token_class::token::D_t,{D,T3}},
+  // 	  {token_class::token::Rkh_t,{Rkh}}}},
+  //    {E1,{{token_class::token::Lkh_t,{Lkh,T}},
+  // 	  {token_class::token::Rkh_t,{Rkh}},
+  // 	  {token_class::token::OP_t,{F,Rkh}}}},
+  //    {E2,{{token_class::token::Ter_t,{Ter,Ter}},        //Ter E2 E2 Rkh E2 E2 
+  // 	  //{token_class::token::Rkh_t,{Ter,Rkh}},
+  // 	  // {token_class::token::OR_t,{OP,E}},       Ter E2 Rkh E2 E2 
+  // 	  {token_class::token::D_t,{OP,F,E2}},
+  // 	  {token_class::token::OP_t,{OP,F,E2}}}},
+  //    {ID,{{token_class::token::Inter_t,{Ter,ID}},
+  // 	  {token_class::token::Atom_t,{Ter,ID}}}},
+  //    {Lkh,{{token_class::token::Lkh_t,{Ter,Lkh}}}},
+  //    {Rkh,{{token_class::token::Rkh_t,{Ter,Rkh}}}},
+  //    {D,{{token_class::token::D_t,{Ter,D}}}},
+  //    {Set,{{token_class::token::Set_t,{Ter,Set}}}},
+  //    {Assert,{{token_class::token::Assert_t,{Ter,Assert}}}},
+  //    {OP,{{token_class::token::OP_t,{Ter,OP}}}}};
+
+  // std::vector<token_class::bnf_token> bnf_stack;
+  // std::vector<token_class::token*> tok_stack;
+  // bnf_stack.push_back(bt);
+  // token_class::token *tok=test_fun();
+  // tok_stack.push_back(tok);
+  // debug;
+  // printf("llll,%d\n",bnf_stack[bnf_stack.size()-1].stat);
+  // debug;
+  // for(int i=bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",bnf_stack[i].stat);
+  // debug;
+  // while(true)
+  // {  
+  //   debug;
+  //   printf("%d\n",bnf_stack[bnf_stack.size()-1].stat);
+  //   debug;
+  //   th_next=synatax_ptr_class::ret_ptr(bnf_stack[bnf_stack.size()-1],tok);
+  //   debug;
+  //   // th_next=synatax_bnf[bnf_stack[bnf_stack.size()-1]][tok->true_type];
+  //   // debug;
+  //   // for(int i=th_next.size()-1;i>=0;i--) printf("ooo,%d\n",th_next[i].stat);
+  //   // debug;
+  //   // for(int i=bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",bnf_stack[i].stat);
+  //   bnf_stack.pop_back();
+  //   for(int i=th_next.size()-1;i>=0;i--) bnf_stack.push_back(th_next[i]);
+  //   // debug;
+  //   for(int i=bnf_stack.size()-1;i>=0;i--) printf("qqqq,%d\n",bnf_stack[i].stat);
+  //   debug;
+  //   if(!(bnf_stack[bnf_stack.size()-1].stat-token_class::bnf_token::Ter))
+  //     {
+  // 	bnf_stack.pop_back();
+  // 	bnf_stack[bnf_stack.size()-1].is_ter=tok;
+  // 	return bnf_stack;//do_stack_fun(this->bnf_stack,this->tok_stack,this->op_stack);
+  //     }
+    
+  // } 
+  
+
+  
+}
 
 std::vector<token_class::bnf_token> synatax_read::do_that(std::vector<token_class::bnf_token> bnf_st,std::vector<token_class::token*> op_st)
 {
@@ -347,7 +462,7 @@ std::vector<token_class::bnf_token> synatax_read::do_that(std::vector<token_clas
 
   debug;
   // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
-  ret=this->operator()(bnf_st[bnf_st.size()-1]);
+  ret=this->next_bnf_list(bnf_st[bnf_st.size()-1]);
   // if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
   // debug;
   bnf_st.pop_back();

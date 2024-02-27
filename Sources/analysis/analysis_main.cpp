@@ -111,6 +111,17 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
       str+="FROM (SELECT colum_name FROM "+vet[0]->str+") AS t1 ";
       str+="JOIN (SELECT colum_name FROM "+vet[1]->str+") AS t2 ";
       str+="ON t1.column_name = t2.column_name";
+      std::cout<<str<<std::endl;
+
+      // tok=new token_class::token();
+      // tok1=
+      csz_stack::exp.type=type_e::Addr;
+      csz_stack::exp.str="("+str+")";
+      csz_stack::exp.tok=new token_class::token(token_class::token::Addr);
+      csz_stack::exp.tok->str="("+str+")";
+      csz_stack::exp.tok->true_type=token_class::token::Addr;
+      csz_stack::do_st.push_back(csz_stack::exp);
+      break;
       
     }
       
