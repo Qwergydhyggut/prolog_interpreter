@@ -20,8 +20,10 @@ namespace synatax_mod
   public:
     static synatax_tree_class::synatax_tree null_sy_tree;
     synatax_read();
+    synatax_read(synatax_ptr_f *spf);
 
     void operator()(synatax_ptr_f *spf);
+    void operator()();
     static std::vector<token_class::bnf_token> next_bnf_list(token_class::bnf_token bt,synatax_ptr_f *spf);
     // std::vector<token_class::bnf_token> do_that(std::vector<token_class::bnf_token> bnf_st={token_class::bnf_token::S},std::vector<token_class::token*> op_st={});
     // static token_class::token *test_fun();

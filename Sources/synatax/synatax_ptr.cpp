@@ -1,5 +1,6 @@
 #include "synatax/synatax_ptr.h"
 #include <cstdio>
+#include <iostream>
 #include <vector>
 #include <map>
 #include "token.h"
@@ -116,13 +117,13 @@ VEC_BNF_TOK synatax_ptr_sql::do_that(VEC_BNF_TOK bnf_st, VEC_TOK_PTR op_st)
       std::cout<<bt.is_ter->str<<std::endl;
     printf("%d\n",op_st.size());
     debug;
-    stop;
+    // stop;
 
   switch(bt.stat)
   {
   case token_class::bnf_token::ID:
     debug;
-    // analysis_mod::analysis_read::do_the_that(bt);
+    analysis_mod::analysis_read::do_the_that(bt);
     if(!op_st.empty()) printf("%lld\n",op_st[0]->true_type);
     printf("push %d\n",++i);
     
@@ -154,7 +155,7 @@ VEC_BNF_TOK synatax_ptr_sql::do_that(VEC_BNF_TOK bnf_st, VEC_TOK_PTR op_st)
       printf("%d\n",op_st.size());
       debug;
       // stop;
-      // analysis_mod::analysis_read::do_the_that(OP);
+      analysis_mod::analysis_read::do_the_that(OP);
       op_st.pop_back();
       
     }
@@ -174,6 +175,10 @@ VEC_BNF_TOK synatax_ptr_sql::do_that(VEC_BNF_TOK bnf_st, VEC_TOK_PTR op_st)
     for(int i=0;i<bnf_st.size();i++) printf("tttttt\t,%d\n",bnf_st[i].stat);
     ret=do_that(bnf_st);
     debug;
+    printf("%d\n",ret.size());
+    printf("%d %d\n",ret[0].stat,ret[1].stat);
+    // std::cout<<ret[0].stat<<std::endl;
+    // std::cout<<ret[1].stat<<std::endl;
     // stop;
     return do_that(ret,op_st);
     
@@ -190,10 +195,17 @@ VEC_BNF_TOK synatax_ptr_sql::do_that(VEC_BNF_TOK bnf_st, VEC_TOK_PTR op_st)
       printf("push %d\n",++i);
       debug;
       OP.is_ter=op_st[op_st.size()-1];
-      // analysis_mod::analysis_read::do_the_that(OP);
+      analysis_mod::analysis_read::do_the_that(OP);
       op_st.pop_back();
 	
     }
+    printf("%d\n",ret.size());
+    printf("%d %d\n",ret[0].stat,ret[1].stat);
+    // std::cout<<ret[0].stat<<std::endl;
+    // std::cout<<ret[1].stat<<std::endl;
+    // stop;
+    debug;
+    // stop;
 
     return bnf_st;
     
@@ -209,7 +221,7 @@ VEC_BNF_TOK synatax_ptr_sql::do_that(VEC_BNF_TOK bnf_st, VEC_TOK_PTR op_st)
       printf("push %d\n",++i);
       debug;
       OP.is_ter=op_st[op_st.size()-1];
-      // analysis_mod::analysis_read::do_the_that(OP);
+      analysis_mod::analysis_read::do_the_that(OP);
       op_st.pop_back();
 	
     }
@@ -218,7 +230,29 @@ VEC_BNF_TOK synatax_ptr_sql::do_that(VEC_BNF_TOK bnf_st, VEC_TOK_PTR op_st)
 
   case token_class::bnf_token::D:
     debug;
-    return do_that(bnf_st,op_st);
+    while(!op_st.empty())
+    {
+      printf("pop %d\n",i--);
+      printf("pop %d\n",i--);
+      debug;
+      printf("do %lld\n",op_st[op_st.size()-1]->pri);
+      printf("push %d\n",++i);
+      debug;
+      OP.is_ter=op_st[op_st.size()-1];
+      analysis_mod::analysis_read::do_the_that(OP);
+      op_st.pop_back();
+	
+    }
+    ret=do_that(bnf_st,op_st);
+    printf("%d\n",ret.size());
+    printf("%d %d\n",ret[0].stat,ret[1].stat);
+    // std::cout<<ret[0].stat<<std::endl;
+    // std::cout<<ret[1].stat<<std::endl;
+    // stop;
+    debug;
+    // stop;
+
+    return ret;
 
       
   }
@@ -270,7 +304,7 @@ VEC_BNF_TOK synatax_ptr_sql::ret_fun(token_class::bnf_token bt,token_class::toke
 	 {token_class::token::OP_t,{OP,T1}},
 	 {token_class::token::Lkh_t,{E1}},    //E2 F //E2
 	 {token_class::token::Rkh_t,{Rkh}}}},
-     {T1,{{token_class::token::Lkh_t,{Lkh,T3,Rkh}},
+     {T1,{{token_class::token::Lkh_t,{Lkh,T3}},
 	  {token_class::token::Atom_t,{ID}},     //E //E2 T//E2 T1 OP//E2 T3 Lkh//E2 T2 ID//E2 T3 D//E2 F//E2 T1 OP//E2 T3 Lkh//E2 T2 ID//E2 Rkh
 
 	  {token_class::token::Inter_t,{ID}}}},
@@ -278,14 +312,14 @@ VEC_BNF_TOK synatax_ptr_sql::ret_fun(token_class::bnf_token bt,token_class::toke
 	  {token_class::token::OP_t,{F}},
 	  {token_class::token::Lkh_t,{E1}},
 	  {token_class::token::Inter_t,{ID,T2}},
-	  {token_class::token::Rkh_t,{}}}},
+	  {token_class::token::Rkh_t,{Rkh}}}},
      {T2,{{token_class::token::D_t,{D,T3}},
 	  {token_class::token::Rkh_t,{Rkh}}}},
-     {E1,{{token_class::token::Lkh_t,{Lkh,T,Rkh}},
+     {E1,{{token_class::token::Lkh_t,{Lkh,T}},
 	  {token_class::token::Rkh_t,{Rkh}},
-	  {token_class::token::OP_t,{F,Rkh}}}},
+	  {token_class::token::OP_t,{F}}}},
      {E2,{{token_class::token::Ter_t,{Ter,Ter}},        //Ter E2 E2 Rkh E2 E2 
-	  //{token_class::token::Rkh_t,{Ter,Rkh}},
+	  {token_class::token::Rkh_t,{Rkh,E2}},
 	  // {token_class::token::OR_t,{OP,E}},       Ter E2 Rkh E2 E2 
 	  {token_class::token::D_t,{OP,F,E2}},
 	  {token_class::token::OP_t,{OP,F,E2}}}},
@@ -300,6 +334,77 @@ VEC_BNF_TOK synatax_ptr_sql::ret_fun(token_class::bnf_token bt,token_class::toke
   debug;
 
   return synatax_bnf[bt][tok->true_type];
+  
+}
+
+token_class::token *synatax_ptr_text::ret_next_token()
+{
+  static get_token_next text(this->fp);
+  static int j;
+  token_class::token *tok;
+  // stop;
+  debug;
+  
+  if(!j)
+  {
+    j^=1;
+
+    for(const auto &pair:analysis_mod::csz_stack::sql)
+    {
+      analysis_mod::csz_stack::sql_shuju value=pair.second;
+      std::cout<<value.table<<std::endl;
+      debug;
+      tok=text(value.table+" ");
+      debug;
+      tok->true_type=token_class::token::OP_t;
+      tok->args=value.list.size();
+      std::cout<<tok->str<<std::endl;
+      debug;
+      printf("%d\n",tok->args);
+      // stop;
+	
+    }
+      
+  }
+  debug;
+
+  tok=text();
+  std::cout<<tok->str<<std::endl;
+  // stop;
+  if(!(tok->token_type-token_class::token::Inter))
+  {
+    tok->true_type=token_class::token::Inter_t;
+      
+  }
+
+  if(!(tok->token_type-token_class::token::Ter))
+  {
+  // std::cout<<tok->str<<std::endl;
+  // debug;
+  // stop;
+    if(tok->str==".")
+    {
+      tok->true_type = token_class::token::Ter_t;
+      debug;
+      // stop;
+    }
+
+    if(tok->str==")")
+      tok->true_type=token_class::token::Rkh_t;
+
+    if(tok->str=="(")
+      tok->true_type=token_class::token::Lkh_t;
+
+    if(tok->str==",")
+      tok->true_type=token_class::token::D_t;
+
+    if(tok->str==";")
+      tok->true_type=token_class::token::Ter_t;
+    
+  }
+
+  return tok;
+
   
 }
 
@@ -344,6 +449,9 @@ token_class::token *synatax_ptr_sql::ret_next_token()
       tok=test(value.table+" ");
       tok->true_type=token_class::token::OP_t;
       tok->args=value.list.size();
+      std::cout<<tok->str<<std::endl;
+      printf("%d\n",tok->args);
+      // stop;
 	
     }
     // stop;

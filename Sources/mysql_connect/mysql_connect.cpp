@@ -22,9 +22,11 @@ void mysql_mod::mysql_connect(std::string host,std::string user,std::string pass
   if(mysql_query(conn, "SHOW TABLES"));
 
   MYSQL_RES *res = mysql_store_result(conn);
-  if (res == nullptr) 
+  if (res == nullptr)
+  {
     std::cout << "Error storing query result" << std::endl;
-    
+    exit(1);
+  }   
     
   int num_fields = mysql_num_fields(res);
   MYSQL_ROW row;
@@ -55,6 +57,7 @@ void mysql_mod::mysql_connect(std::string host,std::string user,std::string pass
 
 	int col_num_fields = mysql_num_fields(col_res);
 	MYSQL_ROW col_row;
+	vec_str.clear();
 	while ((col_row = mysql_fetch_row(col_res)))
 	{
 	  std::cout<<col_row[0]<<std::endl;

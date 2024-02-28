@@ -5,6 +5,8 @@
 #include "token.h"
 #include "synatax_tree.h"
 #include <functional>
+#include <cstdio>
+#include "lexer/lexer_select.h"
 #define VEC_BNF_TOK std::vector<token_class::bnf_token>
 #define VEC_TOK_PTR std::vector<token_class::token*>
 
@@ -30,5 +32,11 @@ struct synatax_ptr_sql : synatax_ptr_f
   VEC_BNF_TOK ret_fun(token_class::bnf_token bt,token_class::token *tok);
   token_class::token *ret_next_token();
 };
+
+struct synatax_ptr_text : synatax_ptr_sql
+{
+  token_class::token *ret_next_token();
+  FILE *fp;
+};                             
 
 #endif

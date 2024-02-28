@@ -63,7 +63,9 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
       // 	for(int i=1;i<csz_stack::sql[tok->str].list.size();i++)
       // 	  str+=","+csz_stack::sql[tok->str].list[i];
       str+=" FROM "+csz_stack::sql[tok->str].table;
-      for(int i=0,j=0;vet.size()>i;i++){debug;printf("%d\n",vet[i]->true_type);debug;
+      for(int i=0,j=0;vet.size()>i;i++){debug;
+	std::cout<<tok->str<<std::endl;
+	printf("%d %d\n",vet.size(),tok->args);printf("%d\n",vet[i]->true_type);debug;
 	if(vet[i]->true_type-token_class::token::Addr)
 	{
 	  debug;

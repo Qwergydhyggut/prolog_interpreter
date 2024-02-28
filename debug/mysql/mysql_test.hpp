@@ -2,6 +2,7 @@
 #include "mysql_connect.h"
 #include "debug.h"
 #include "synatax.h"
+#include "source_read.h"
 
 
 TEST(mysql, connect_test)
@@ -20,6 +21,20 @@ TEST(mysql, sqldo)
   debug;
 
   test(&lll);
+
+  
+}
+
+TEST(source, test)
+{
+  int i;
+  char strs[]="lll";
+  char **mdzz;
+
+  // mdzz=new char*;
+  // mdzz[0]=strs;
+  source_read_mod::source_select::select_mode("lll");
+  debug;
 
   
 }

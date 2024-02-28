@@ -47,6 +47,15 @@ synatax_read::synatax_read()
   // this->null_sy_tree.addr=0;
   
   
+}
+
+synatax_read::synatax_read(synatax_ptr_f *spf)
+{
+  spf->next_bnf_list=next_bnf_list;
+  // spf->do_that();
+  this->spf=spf;
+
+  
 }    
 
 // synatax_read::
@@ -248,6 +257,13 @@ void synatax_read::operator()(synatax_ptr_f *spf)
   spf->do_that();
   this->spf=spf;
   
+
+  
+}
+
+void synatax_read::operator()()
+{
+  this->spf->do_that();
 
   
 }

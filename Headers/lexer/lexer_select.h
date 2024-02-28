@@ -3,6 +3,7 @@
 #include "token.h"
 #include "lexer.h"
 #include <string>
+#include <cstdio>
 #define ENABLE_OBJ_INPUT {'+','-','*','/','='}
 #define ENABLE_TER_INPUT {'.',';',',','(',')'}
 
@@ -24,6 +25,7 @@ private:
 struct get_token_next
 {
   get_token_next(std::string str);
+  get_token_next(FILE *fp);
   token_class::token *operator()();
   token_class::token *operator()(std::string str);
   ~get_token_next();
@@ -31,6 +33,8 @@ private:
   std::string str;
   lexer_mod::lexer_read *tok;
   int i;
+  enum{STR_t,FP_t} bz;
+  FILE *fp;
 };   
 
 #endif

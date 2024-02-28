@@ -1,4 +1,6 @@
 #include "lexer/lexer_select.h"
+#include <bits/types/FILE.h>
+#include <cstdio>
 #include <iostream>
 #include "token.h"
 #include "debug.h"
@@ -133,12 +135,22 @@ bool select_token_class::is_inter(char c)
 
 get_token_next::get_token_next(std::string str)
 {
+  this->bz=STR_t;
   this->str=str;
   this->i=0;
   this->tok=new lexer_mod::lexer_read(select_token_class::select_token_fun_ptr,select_token_class::select_set_token_ptr);
 
   
 }
+
+get_token_next::get_token_next(FILE *fp)
+{
+  this->bz=FP_t;
+  this->fp=fp;
+  this->tok=new lexer_mod::lexer_read(select_token_class::select_token_fun_ptr,select_token_class::select_set_token_ptr);
+
+  
+}    
 
 get_token_next::~get_token_next()
 {
@@ -149,20 +161,41 @@ get_token_next::~get_token_next()
 
 token_class::token *get_token_next::operator()()
 {
-  for(token_class::token *tok_ptr;this->i+1<this->str.size();this->i++)
-    if((tok_ptr=&(*this->tok)(this->str[this->i],this->str[this->i+1]))->token_exp)
-    {
-      this->i++;
-      return tok_ptr;
-    }
+  if(!(this->bz-STR_t))
+    for(token_class::token *tok_ptr;this->i+1<this->str.size();this->i++)
+      if((tok_ptr=&(*this->tok)(this->str[this->i],this->str[this->i+1]))->token_exp)      {
+	this->i++;
+	return tok_ptr;
+      }
+  
+  if(!(this->bz-FP_t))
+  {
+    int i;
+    token_class::token *tok_ptr;
+
+    debug;
+    // stop;
+    static char c=fgetc(this->fp);
+    static char c1=fgetc(this->fp);
+    debug;
+    for(;!((tok_ptr=&(*this->tok)(c,c1))->token_exp);c=c1,c1=fgetc(this->fp));
+    c=c1;c1=fgetc(this->fp);
+    // while(!((tok_ptr=&(*this->tok)(c,c=fgetc(this->fp)))->token_exp));
+
+    return tok_ptr;
+    
+      
+  }
+    
 }
 
 token_class::token *get_token_next::operator()(std::string str)
 {
+  debug;
   token_class::token *tok_ptr;
-  for(int i=0;i+1<str.size();i++)
+  for(int i=0;i+1<str.size();i++){debug;
     if((tok_ptr=&(*this->tok)(str[i],str[i+1]))->token_exp)
-      return tok_ptr;
+      return tok_ptr;}
 
   
 }
