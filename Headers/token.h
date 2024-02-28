@@ -1,8 +1,6 @@
 #ifndef __TOKEN_INCLUDE__
 #define __TOKEN_INCLUDE__
-#include <locale>
 #include <string>
-//#include "lexer.h"
 #define ENABLE_TOKEN_OBJ Atom_t,Inter_t,Var_t,Ter_t,Rkh_t,Lkh_t,OP_t,AND_t,OR_t,D_t,Assert_t,Set_t,Addr
 #define ENABLE_BNF_TOKEN S,E,T,Ter,ID,Lkh,Rkh,E1,T1,OP,E2,T2,F,D,T3,F1,Assert,Set
 
@@ -22,7 +20,6 @@ namespace token_class
     unsigned int addr=0;
     unsigned int pri=0;
     unsigned int args=2;
-    // lexer_mod::lexer_read *prev;
     
     
   };

@@ -30,7 +30,7 @@ synatax_ptr_f *source_select::select_mode(std::string args)
   printf("输入密码：");std::cin>>str[2];
   printf("输入数据库名：");std::cin>>str[3];
 
-  mysql_mod::mysql_connect("127.0.0.1", "root", "qqq111", "gra_db");
+  mysql_mod::mysql_connect(str[0],str[1],str[2],str[3]);
   sy_p->fp=fp;
 
 

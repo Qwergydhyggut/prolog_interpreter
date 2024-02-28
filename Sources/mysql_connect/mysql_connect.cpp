@@ -11,14 +11,19 @@ using namespace mysql_mod;
 
 void mysql_mod::mysql_connect(std::string host,std::string user,std::string passwd,std::string database)
 {
-  debug;
+  // debug;
   std::vector<std::string> vec_str;
   std::string str;
   MYSQL *conn=mysql_init(0);
 
 
-  if(mysql_real_connect(conn,host.c_str(),user.c_str(),passwd.c_str(),database.c_str(),0,0,0)==0)debug;
-  std::cout<<host<<std::endl;
+  if(!mysql_real_connect(conn,host.c_str(),user.c_str(),passwd.c_str(),database.c_str(),0,0,0))//debug;
+  {
+    printf("连接数据库失败\n");
+    exit(23);
+      
+  }
+  // std::cout<<host<<std::endl;
   if(mysql_query(conn, "SHOW TABLES"));
 
   MYSQL_RES *res = mysql_store_result(conn);
@@ -27,6 +32,9 @@ void mysql_mod::mysql_connect(std::string host,std::string user,std::string pass
     std::cout << "Error storing query result" << std::endl;
     exit(1);
   }   
+
+  // printf("%d\n",res);
+  // exit(0);
     
   int num_fields = mysql_num_fields(res);
   MYSQL_ROW row;
@@ -37,7 +45,7 @@ void mysql_mod::mysql_connect(std::string host,std::string user,std::string pass
     {
       if (row[i] != nullptr)
       {
-	std::cout << "Table Name: " << row[i] << std::endl;
+	// std::cout << "Table Name: " << row[i] << std::endl;
 	str=row[i];
 	// std::cout<<row[i]<<std::endl;
 
@@ -60,7 +68,7 @@ void mysql_mod::mysql_connect(std::string host,std::string user,std::string pass
 	vec_str.clear();
 	while ((col_row = mysql_fetch_row(col_res)))
 	{
-	  std::cout<<col_row[0]<<std::endl;
+	  // std::cout<<col_row[0]<<std::endl;
 	  vec_str.push_back(col_row[0]);
 	  // for (int j = 0; j < col_num_fields; j++) {
 	  //   if (col_row[j] != nullptr) {

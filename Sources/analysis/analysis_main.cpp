@@ -44,31 +44,31 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
     
   case token_class::bnf_token::OP:
     vet.clear();
-    debug;
+    // debug;
     tok=bt.is_ter;
-    debug;
+    // debug;
 
     if(tok->true_type-token_class::token::D_t)
     {
-      debug;
+      // debug;
       for(int i=0;i<tok->args;i++)
 	vet.push_back(csz_stack::do_st[csz_stack::do_st.size()-1].tok),
 	  csz_stack::do_st.pop_back();
 
       str="SELECT * ";
 
-      debug;
+      // debug;
       // if(csz_stack::sql.size()>0) str+=csz_stack::sql[tok->str].list[0];
       // if(csz_stack::sql.size()>1)
       // 	for(int i=1;i<csz_stack::sql[tok->str].list.size();i++)
       // 	  str+=","+csz_stack::sql[tok->str].list[i];
       str+=" FROM "+csz_stack::sql[tok->str].table;
-      for(int i=0,j=0;vet.size()>i;i++){debug;
-	std::cout<<tok->str<<std::endl;
-	printf("%d %d\n",vet.size(),tok->args);printf("%d\n",vet[i]->true_type);debug;
+      for(int i=0,j=0;vet.size()>i;i++){// debug;
+	// std::cout<<tok->str<<std::endl;
+	// printf("%d %d\n",vet.size(),tok->args);printf("%d\n",vet[i]->true_type);debug;
 	if(vet[i]->true_type-token_class::token::Addr)
 	{
-	  debug;
+	  // debug;
 	  if(!j)
 	  {
 	    j^=1;
@@ -81,12 +81,13 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
 	    
 	  }
 	    
-	}debug;}
-      debug;
+	}// debug;
+      }
+      // debug;
       
       for(int i=0;vet.size()>i;i++)
       {
-	debug;
+	// debug;
 	if(!(vet[i]->true_type-token_class::token::Addr))
 	{
 	  str+=" JOIN "+vet[i]->str+" AS "+"t"+std::to_string(i)+" ON "+"t"+std::to_string(i)+"."+csz_stack::sql[tok->str].list[i]+"="+csz_stack::sql[tok->str].table+"."+csz_stack::sql[tok->str].list[i];
@@ -100,7 +101,7 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
       // 	str+=","+csz_stack::sql[tok->str].list[i];
 
       // str+=" WHERE "+csz_stack::sql;
-      std::cout<<str<<std::endl;
+      // std::cout<<str<<std::endl;
 
       // tok=new token_class::token();
       // tok1=
@@ -123,7 +124,7 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
       str+="FROM (SELECT colum_name FROM "+vet[0]->str+") AS t1 ";
       str+="JOIN (SELECT colum_name FROM "+vet[1]->str+") AS t2 ";
       str+="ON t1.column_name = t2.column_name";
-      std::cout<<str<<std::endl;
+      // std::cout<<str<<std::endl;
 
       // tok=new token_class::token();
       // tok1=

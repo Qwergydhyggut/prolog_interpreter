@@ -11,13 +11,6 @@
 #define VEC_TOK_PTR std::vector<token_class::token*>
 
 
-// struct synatax_ptr_class
-// {
-//   // static synatax_tree_class::synatax_tree D_sy_tree;
-//   static std::vector<token_class::bnf_token> ret_ptr(token_class::bnf_token bt,token_class::token *tok);
-//   // static synatax_tree_class::synatax_tree do_stack_ptr(std::vector<token_class::bnf_token> &bnf_stack,std::vector<token_class::token*> &tok_stack,std::vector<token_class::token*> &op_stack);
-// };
-
 struct synatax_ptr_f
 {
   virtual VEC_BNF_TOK do_that(VEC_BNF_TOK bnf_st={token_class::bnf_token::S},VEC_TOK_PTR op_st={})=0;

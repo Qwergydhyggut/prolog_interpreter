@@ -7,10 +7,6 @@ namespace source_read_mod
 {
   class source_select
   {
-    /* struct init_pro */
-    /* { */
-    /*   virtual  */
-    /* }; */
   public:
     static synatax_ptr_f *select_mode(std::string args);
     

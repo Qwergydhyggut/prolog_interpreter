@@ -8,13 +8,11 @@
 #include <cctype>
 
 
-// enum{atom_obj,atom_var,var,Inter,Init} select_token_class::stat=Init;
-// enum{Atom_obj,Atom_var,Var,Inter,Init} select_token_class::stat=Init;
 select_token_class::Stat select_token_class::stat=Init;
 bool select_token_class::select_token_fun_ptr(char c, char c1)
 {
-  printf("lll,%d\n",stat);
-  debug;
+  // printf("lll,%d\n",stat);
+  // debug;
 here:  
   switch(stat)
   {
@@ -28,7 +26,7 @@ here:
     goto here;
 
   case Ter:
-    debug;
+    // debug;
     // stop;
     return true;
     
@@ -49,7 +47,7 @@ here:
     break;
     
   case Inter:
-    debug;
+    // debug;
     // stop
     if(is_inter(c1)) return false;
     //stat=Init;
@@ -66,8 +64,8 @@ here:
 
 void select_token_class::select_set_token_ptr(token_class::token &tok)
 {
-  printf("aaa\n");
-  debug;
+  // printf("aaa\n");
+  // debug;
   switch(stat)
   {
   case Atom_var:  
@@ -79,8 +77,8 @@ void select_token_class::select_set_token_ptr(token_class::token &tok)
   }
 
   stat=Init;
-  printf("%d\n",stat);
-  debug;
+  // printf("%d\n",stat);
+  // debug;
   
   
 }  
@@ -173,11 +171,11 @@ token_class::token *get_token_next::operator()()
     int i;
     token_class::token *tok_ptr;
 
-    debug;
+    // debug;
     // stop;
     static char c=fgetc(this->fp);
     static char c1=fgetc(this->fp);
-    debug;
+    // debug;
     for(;!((tok_ptr=&(*this->tok)(c,c1))->token_exp);c=c1,c1=fgetc(this->fp));
     c=c1;c1=fgetc(this->fp);
     // while(!((tok_ptr=&(*this->tok)(c,c=fgetc(this->fp)))->token_exp));
@@ -191,9 +189,9 @@ token_class::token *get_token_next::operator()()
 
 token_class::token *get_token_next::operator()(std::string str)
 {
-  debug;
+  // debug;
   token_class::token *tok_ptr;
-  for(int i=0;i+1<str.size();i++){debug;
+  for(int i=0;i+1<str.size();i++){// debug;
     if((tok_ptr=&(*this->tok)(str[i],str[i+1]))->token_exp)
       return tok_ptr;}
 

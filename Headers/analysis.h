@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <map>
-/* #include <mutex> */
 
 
 namespace analysis_mod
@@ -32,7 +31,6 @@ namespace analysis_mod
   class analysis_read
   {
   public:
-    /* static czs_stack cs_st; */
     static void do_the_that(token_class::bnf_token bt);
 
     

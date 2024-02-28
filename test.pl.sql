@@ -1,0 +1,1 @@
+(SELECT *  FROM lll WHERE lll=101 JOIN (SELECT *  FROM qqq WHERE lll=15) AS t0 ON t0.qqq=lll.qqq)

@@ -10,7 +10,7 @@ using namespace std;
 
 token_num::token_num()
 {
-  debug;
+  // debug;
   this->max=1;
  
   
@@ -18,7 +18,7 @@ token_num::token_num()
 
 token_num::~token_num()
 {
-  printf("exit\n");
+  // printf("exit\n");
 
   
 }
