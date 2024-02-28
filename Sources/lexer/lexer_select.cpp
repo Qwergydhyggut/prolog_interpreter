@@ -155,6 +155,14 @@ token_class::token *get_token_next::operator()()
       this->i++;
       return tok_ptr;
     }
+}
+
+token_class::token *get_token_next::operator()(std::string str)
+{
+  token_class::token *tok_ptr;
+  for(int i=0;i+1<str.size();i++)
+    if((tok_ptr=&(*this->tok)(str[i],str[i+1]))->token_exp)
+      return tok_ptr;
 
   
 }

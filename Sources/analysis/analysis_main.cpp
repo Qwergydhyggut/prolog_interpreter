@@ -32,6 +32,16 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
     csz_stack::do_st.push_back(csz_stack::exp);
     break;
 
+  // case token_class::bnf_token::Lkh:
+  //   csz_stack::exp.type=type_e::Lkh;
+  //   csz_stack::do_st.push_back(csz_stack::exp);
+  //   break;
+    
+  // case token_class::bnf_token::Rkh:
+    
+  // case token_class::bnf_token::Ter:
+    
+    
   case token_class::bnf_token::OP:
     vet.clear();
     debug;
@@ -124,6 +134,10 @@ void analysis_read::do_the_that(token_class::bnf_token bt)
       break;
       
     }
+
+  case token_class::bnf_token::Ter:
+    csz_stack::do_st.clear();
+    break;
       
   }
 

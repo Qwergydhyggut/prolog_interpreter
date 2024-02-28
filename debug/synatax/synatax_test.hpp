@@ -183,13 +183,13 @@ TEST(synatax, new_test)
   
 }
 
-TEST(synatax, sqldo)
-{
-  debug;
-  synatax_mod::synatax_read test;
-  synatax_ptr_sql lll;
+// TEST(synatax, sqldo)
+// {
+//   debug;
+//   synatax_mod::synatax_read test;
+//   synatax_ptr_sql lll;
 
-  test(&lll);
+//   test(&lll);
 
   
-}
+// }

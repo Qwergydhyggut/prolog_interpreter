@@ -9,7 +9,7 @@
 
 namespace analysis_mod
 {
-  typedef enum{Atom,OP,Addr} type_e;
+  typedef enum{Atom,OP,Addr,Lkh} type_e;
   class csz_stack
   {
   public:

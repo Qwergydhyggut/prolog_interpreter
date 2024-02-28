@@ -215,7 +215,7 @@ std::vector<token_class::bnf_token> synatax_read::next_bnf_list(token_class::bnf
   while(true)
   {  
     debug;
-    printf("%d\n",bnf_stack[bnf_stack.size()-1].stat);
+    printf("llllmdzz,%d\n",bnf_stack[bnf_stack.size()-1].stat);
     debug;
     th_next=spf->ret_fun(bnf_stack[bnf_stack.size()-1],tok);
     debug;

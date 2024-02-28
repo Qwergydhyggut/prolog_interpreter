@@ -25,6 +25,7 @@ struct get_token_next
 {
   get_token_next(std::string str);
   token_class::token *operator()();
+  token_class::token *operator()(std::string str);
   ~get_token_next();
 private:
   std::string str;
