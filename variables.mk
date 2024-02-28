@@ -8,7 +8,7 @@ mb=prolog
 jg=a
 test=test
 cs=cs
-test-command=test.pr
+test-command=test.pl
 
 lo=yuan.o
 zj=zj
